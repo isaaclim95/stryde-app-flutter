@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'welcome.dart';
 
 void main() {
   runApp(
     MaterialApp(
         title: 'Stryde',
-        home: Login()
+        home: Welcome()
     ),
   );
 }

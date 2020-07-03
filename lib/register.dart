@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'login.dart';
+import 'connector.dart';
+import 'welcome.dart';
 
 class AgeDropdown extends StatefulWidget {
   AgeDropdown({Key key}) : super(key: key);
@@ -110,7 +111,18 @@ class Register extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+
+          // Register Text
+          Text(
+            "Register",
+            style: TextStyle(
+              color: Color(0xFF409ded),
+              fontSize: 30,
+              fontWeight: FontWeight.bold,),
+          ),
+
           // Name TextField
+          const SizedBox(height: 15),
           Container(
             width: 300,
             child: TextField(
@@ -194,7 +206,7 @@ class Register extends StatelessWidget {
                     borderRadius: new BorderRadius.circular(10.0)),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Login()));
+                      MaterialPageRoute(builder: (context) => Welcome()));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),
@@ -215,7 +227,10 @@ class Register extends StatelessWidget {
               RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(10.0)),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Connector(1)));
+                },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),
                 child: Container(

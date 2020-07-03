@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:strydeapp/welcome.dart';
 import 'register.dart';
 import 'connector.dart';
 
@@ -52,13 +53,13 @@ class Login extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Register Button
+              // Back Button
               RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(10.0)),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Register()));
+                      MaterialPageRoute(builder: (context) => Welcome()));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),
@@ -70,7 +71,7 @@ class Login extends StatelessWidget {
                   width: 130,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                  child: const Text('Register', style: TextStyle(fontSize: 20)),
+                  child: const Text('Back', style: TextStyle(fontSize: 20)),
                 ),
               ),
 
@@ -81,7 +82,7 @@ class Login extends StatelessWidget {
                     borderRadius: new BorderRadius.circular(10.0)),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Connector()));
+                      MaterialPageRoute(builder: (context) => Connector(0)));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),

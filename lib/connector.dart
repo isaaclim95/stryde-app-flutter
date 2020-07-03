@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 
+import 'home.dart';
 import 'profile.dart';
 import 'training.dart';
 import 'record.dart';
 
 
 class Connector extends StatefulWidget {
-  Connector({Key key}) : super(key: key);
+  int selectedIndex = 0;
 
   @override
-  ConnectorState createState() => ConnectorState();
+  ConnectorState createState() => ConnectorState(selectedIndex);
 
 
   Widget build(BuildContext context) {
-    return Connector();
+    return Connector(selectedIndex);
+  }
+
+  Connector(int selectedIndex){
+    this.selectedIndex = selectedIndex;
   }
 }
 
 class ConnectorState extends State<Connector> {
-  int selectedIndex = 0;
+  int selectedIndex;
 
   final List<Widget> pages = <Widget>[
+    Home(),
     Profile(),
     Training(),
     Record(),
@@ -37,7 +43,12 @@ class ConnectorState extends State<Connector> {
     return Scaffold(
       body: pages.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             title: Text('Profile'),
@@ -58,8 +69,7 @@ class ConnectorState extends State<Connector> {
       ),
     );
   }
+  ConnectorState(int selectedIndex){
+    this.selectedIndex = selectedIndex;
+  }
 }
-
-/*class Profile extends StatelessWidget {
-
-}*/
