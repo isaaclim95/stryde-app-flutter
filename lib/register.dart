@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'connector.dart';
+import 'firstrun.dart';
 import 'welcome.dart';
 
 class AgeDropdown extends StatefulWidget {
@@ -229,7 +230,7 @@ class Register extends StatelessWidget {
                     borderRadius: new BorderRadius.circular(10.0)),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Connector(1)));
+                      MaterialPageRoute(builder: (context) => Firstrun()));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),
