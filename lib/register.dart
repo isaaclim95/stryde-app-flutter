@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'connector.dart';
 import 'firstrun.dart';
 import 'welcome.dart';
 
@@ -112,18 +111,18 @@ class Register extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
-          // Register Text
+          // Heading
           Text(
-            "Register",
+            "Sign-Up",
             style: TextStyle(
               color: Color(0xFF409ded),
-              fontSize: 30,
+              fontSize: 48,
               fontWeight: FontWeight.bold,),
           ),
 
+          // Margin
+          const SizedBox(height: 30),
           // Name TextField
-          const SizedBox(height: 15),
           Container(
             width: 300,
             child: TextField(
@@ -176,6 +175,20 @@ class Register extends StatelessWidget {
                     const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                     border: OutlineInputBorder(),
                     labelText: 'Password',
+                  ),
+                ),
+
+                // Confirm Password TextField
+                const SizedBox(height: 15),
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    fillColor: Color(0xFFf0f0f0),
+                    filled: true,
+                    contentPadding:
+                    const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirm Password',
                   ),
                 ),
               ])),
@@ -242,11 +255,12 @@ class Register extends StatelessWidget {
                   width: 130,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                  child: const Text('Confirm', style: TextStyle(fontSize: 20)),
+                  child: const Text('Sign Up', style: TextStyle(fontSize: 20)),
                 ),
               ),
             ],
           ),
+          const SizedBox(height: 80),
         ],
       ),
     );

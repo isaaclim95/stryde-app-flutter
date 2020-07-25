@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:strydeapp/welcome.dart';
-import 'register.dart';
 import 'connector.dart';
 
 class Login extends StatelessWidget {
@@ -8,20 +7,25 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Logo Image
-          const SizedBox(height: 80),
-          Image.asset(
-            'images/logo.png',
-            height: 200,
+          // Heading
+          Text(
+            "Login",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFF409ded),
+              fontSize: 48,
+              fontWeight: FontWeight.bold,),
           ),
 
+          // Margin
+          const SizedBox(height: 30),
           // TextFields
           Container(
               width: 300,
               child: Column(children: [
                 // Email TextField
-                const SizedBox(height: 20),
                 TextField(
                   decoration: InputDecoration(
                     fillColor: Color(0xFFf0f0f0),
@@ -95,11 +99,12 @@ class Login extends StatelessWidget {
                   width: 130,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                  child: const Text('Login', style: TextStyle(fontSize: 20)),
+                  child: const Text('Log In', style: TextStyle(fontSize: 20)),
                 ),
               ),
             ],
           ),
+          const SizedBox(height: 80),
         ],
       ),
     );
