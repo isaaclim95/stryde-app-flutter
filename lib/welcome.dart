@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'register.dart';
 import 'login.dart';
 
 class Welcome extends StatelessWidget {
+  static const platform = const MethodChannel('samples.flutter.dev/battery');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +72,32 @@ class Welcome extends StatelessWidget {
                 child: const Text('Sign-Up', style: TextStyle(fontSize: 24)),
               ),
             ),
+
+
+            // TEST ____________________________
+            const SizedBox(height: 30),
+            // Register Button
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0)),
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Register()));
+              },
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(10.0),
+                  color: Color(0xFF409ded),
+                ),
+                width: 150,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                child: const Text('Test', style: TextStyle(fontSize: 24)),
+              ),
+            ),
+            // TEST __________________________
             const SizedBox(height: 80),
           ],
         ),

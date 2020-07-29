@@ -32,7 +32,7 @@ dependencies:
   # Camera Dependency
   camera:
   # File Path Dependency
-  path_provider: ^0.5.0
+  path_provider: ^1.6.11
   # Video Player Dependency
   video_player: ^0.10.0
 
