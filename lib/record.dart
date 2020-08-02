@@ -15,9 +15,6 @@ class CameraApp extends StatefulWidget {
   }
 }
 
-void logError(String code, String message) =>
-    print('Error: $code\nError Message: $message');
-
 class _CameraAppState extends State<CameraApp>
     with WidgetsBindingObserver {
   CameraController controller;
@@ -25,8 +22,11 @@ class _CameraAppState extends State<CameraApp>
   String videoPath;
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
+  int duration = 5;
+  bool playback = false;
 
-  @override
+  // Look at this -----------------------------------------------
+  /*@override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -37,6 +37,7 @@ class _CameraAppState extends State<CameraApp>
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -51,14 +52,11 @@ class _CameraAppState extends State<CameraApp>
         //onNewCameraSelected(controller.description);
       }
     }
-  }
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -81,16 +79,6 @@ class _CameraAppState extends State<CameraApp>
             ),
           ),
           _captureControlRowWidget(),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                _cameraTogglesRowWidget(),
-                _thumbnailWidget(),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -108,89 +96,59 @@ class _CameraAppState extends State<CameraApp>
         ),
       );
     } else {
-      return AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: CameraPreview(controller),
-      );
+      if(!playback){
+        return AspectRatio(
+          aspectRatio: controller.value.aspectRatio,
+          child: CameraPreview(controller),
+        );
+      }else{
+        return AspectRatio(
+            aspectRatio:
+            videoController.value.size != null
+                ? videoController.value.aspectRatio
+                : 1.0,
+            child: VideoPlayer(videoController));
+      }
     }
   }
 
-  /// Display the thumbnail of the captured image or video.
-  Widget _thumbnailWidget() {
-    return Expanded(
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            videoController == null
-                ? Container()
-                : SizedBox(
-              child: (videoController == null)
-                  ? Text("TEST")
-                  : Container(
-                child: Center(
-                  child: AspectRatio(
-                      aspectRatio:
-                      videoController.value.size != null
-                          ? videoController.value.aspectRatio
-                          : 1.0,
-                      child: VideoPlayer(videoController)),
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.pink)),
-              ),
-              width: 64.0,
-              height: 64.0,
-            ),
-          ],
-        ),
-      ),
-    );
+  void changePlayback(){
+    setState(() {
+      print(videoController);
+      playback ? playback = false : playback = true;
+    });
   }
 
-  /// Display the control bar with buttons to take pictures and record videos.
+  /// Camera buttons
   Widget _captureControlRowWidget() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         IconButton(
+          icon: const Icon(Icons.switch_camera),
+          color: Colors.blue,
+          onPressed: playback || videoController != null ? changePlayback : null,
+        ),
+        IconButton(
+          icon: const Icon(Icons.switch_camera),
+          color: Colors.blue,
+          onPressed: cameras.isEmpty ? null : onNewCameraSelected,
+        ),
+        IconButton(
           icon: const Icon(Icons.videocam),
           color: Colors.blue,
           onPressed: controller != null &&
-              controller.value.isInitialized
+              controller.value.isInitialized && !playback
               ? onVideoRecordButtonPressed
               : null,
         ),
+        Text(duration.toString())
       ],
     );
   }
 
-  /// Display a row of toggle to select the camera (or a message if no camera is available).
-  Widget _cameraTogglesRowWidget() {
-    final List<Widget> toggles = <Widget>[];
-
-    if (cameras.isEmpty) {
-      return const Text('No camera found');
-    } else {
-      toggles.add(
-        IconButton(
-          icon: const Icon(Icons.switch_camera),
-          color: Colors.blue,
-          onPressed: onNewCameraSelected,
-        ),
-      );
-    }
-
-    return Row(children: toggles);
-  }
-
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
-
-  /*void showInSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-  }*/
 
   void onNewCameraSelected() async {
     CameraDescription cameraDescription;
@@ -221,7 +179,7 @@ class _CameraAppState extends State<CameraApp>
     try {
       await controller.initialize();
     } on CameraException catch (e) {
-      _showCameraException(e);
+      print("Error onNewCameraSelected");
     }
 
     if (mounted) {
@@ -230,25 +188,34 @@ class _CameraAppState extends State<CameraApp>
   }
 
   void onVideoRecordButtonPressed() {
+    Timer timer;
+    playback = false;
     if(!controller.value.isRecordingVideo){
+      duration = 5;
       startVideoRecording().then((String filePath) {
         if (mounted) setState(() {});
         //if (filePath != null) showInSnackBar('Saving video to $filePath');
       });
-    }else{
-      stopVideoRecording().then((_) {
-        if (mounted) setState(() {});
-        //showInSnackBar('Video recorded to: $videoPath');
+      timer = Timer.periodic(Duration(seconds: 1), (timer){
+        setState(() {
+          duration--;
+          if(duration == 0){
+            timer.cancel();
+            stopVideoRecording().then((_) {
+              if (mounted) setState(() {});
+              //showInSnackBar('Video recorded to: $videoPath');
+            });
+          }
+        });
+
       });
+    }else{
+      print("onVideoRecordButtonPressed Error");
     }
 
   }
 
   Future<String> startVideoRecording() async {
-    /*if (!controller.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
-      return null;
-    }*/
 
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Movies/flutter_test';
@@ -264,7 +231,7 @@ class _CameraAppState extends State<CameraApp>
       videoPath = filePath;
       await controller.startVideoRecording(filePath);
     } on CameraException catch (e) {
-      _showCameraException(e);
+      print("Error startVideoRecording");
       return null;
     }
     return filePath;
@@ -278,7 +245,7 @@ class _CameraAppState extends State<CameraApp>
     try {
       await controller.stopVideoRecording();
     } on CameraException catch (e) {
-      _showCameraException(e);
+      print("Error stopVideoRecording");
       return null;
     }
 
@@ -305,11 +272,7 @@ class _CameraAppState extends State<CameraApp>
       });
     }
     await vcontroller.play();
-  }
-
-  void _showCameraException(CameraException e) {
-    logError(e.code, e.description);
-    //showInSnackBar('Error: ${e.code}\n${e.description}');
+    playback = true;
   }
 }
 
@@ -323,7 +286,7 @@ class Record extends StatelessWidget {
       WidgetsFlutterBinding.ensureInitialized();
       cameras = await availableCameras();
     } on CameraException catch (e) {
-      logError(e.code, e.description);
+      print("Error starting camera");
     }
   }
 
