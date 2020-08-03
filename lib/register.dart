@@ -110,12 +110,8 @@ class Register extends StatefulWidget {
   Register({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  Register createState()=> Register();
+  RegisterState createState()=> RegisterState();
 
-}
-
-RegisterState createState() {
-  return RegisterState();
 }
 
 class RegisterState extends State<Register> {
