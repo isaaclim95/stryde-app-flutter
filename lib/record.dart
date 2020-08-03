@@ -126,7 +126,7 @@ class _CameraAppState extends State<CameraApp>
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         IconButton(
-          icon: const Icon(Icons.switch_camera),
+          icon: const Icon(Icons.cached),
           color: Colors.blue,
           onPressed: playback || videoController != null ? changePlayback : null,
         ),
