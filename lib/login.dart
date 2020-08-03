@@ -3,6 +3,9 @@ import 'package:strydeapp/welcome.dart';
 import 'connector.dart';
 
 class Login extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

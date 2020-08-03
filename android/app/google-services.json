@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "67767718",
+    "firebase_url": "https://stryde-ba2aa.firebaseio.com",
+    "project_id": "stryde-ba2aa",
+    "storage_bucket": "stryde-ba2aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67767718:android:2092fe8a5595f9d5421367",
+        "android_client_info": {
+          "package_name": "com.example.stryde"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67767718-qbfpiiida8tr924le0mf2um865ifmckq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2UGSDMTbOXzNev243XD3hCZtRZvuGVqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67767718-qbfpiiida8tr924le0mf2um865ifmckq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "67767718-elbm8m0bpo98ptukriljbf929nj0aoul.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.strydeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67767718:android:269853815f0d9a0c421367",
+        "android_client_info": {
+          "package_name": "com.example.strydeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67767718-qbfpiiida8tr924le0mf2um865ifmckq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2UGSDMTbOXzNev243XD3hCZtRZvuGVqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67767718-qbfpiiida8tr924le0mf2um865ifmckq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "67767718-elbm8m0bpo98ptukriljbf929nj0aoul.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.strydeapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
