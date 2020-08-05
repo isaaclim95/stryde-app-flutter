@@ -57,7 +57,7 @@ class LoginState extends State<Login> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF409ded),
-                  fontSize: 48,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -84,9 +84,8 @@ class LoginState extends State<Login> {
                               labelText: 'Email',
                             ),
                           ),
-
                           // Password TextField
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 30),
                           TextFormField(
                             controller: _passwordController,
                             obscureText: true,
@@ -134,6 +133,8 @@ class LoginState extends State<Login> {
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           onPressed: () {
+                            // Un-focus keyboard
+                            FocusScope.of(context).requestFocus(FocusNode());
 
                             // Sign in here
                             Future login() async {
@@ -146,12 +147,10 @@ class LoginState extends State<Login> {
                               } catch (err) {
                                 print('Caught error: $err');
                                 print('Failed to login');
-                                Fluttertoast.showToast(msg: "Failed to login", toastLength: Toast.LENGTH_SHORT, backgroundColor: Colors.black);
+                                Fluttertoast.showToast(msg: "Failed to login", toastLength: Toast.LENGTH_SHORT, backgroundColor: Colors.black, gravity: ToastGravity.BOTTOM);
                               }
                             }
-
-                            login();
-
+                              login();
                           },
                           textColor: Colors.white,
                           padding: const EdgeInsets.all(0.0),
@@ -168,7 +167,7 @@ class LoginState extends State<Login> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 300),
                   ],
                 ),
               )

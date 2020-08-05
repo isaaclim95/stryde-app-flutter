@@ -16,7 +16,7 @@ class Welcome extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF409ded),
-                fontSize: 48,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -42,7 +42,7 @@ class Welcome extends StatelessWidget {
                 width: 150,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                child: const Text('Login', style: TextStyle(fontSize: 24)),
+                child: const Text('Login', style: TextStyle(fontSize: 18)),
               ),
             ),
 
@@ -66,7 +66,7 @@ class Welcome extends StatelessWidget {
                 width: 150,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                child: const Text('Sign-Up', style: TextStyle(fontSize: 24)),
+                child: const Text('Sign-Up', style: TextStyle(fontSize: 18)),
               ),
             ),
 
