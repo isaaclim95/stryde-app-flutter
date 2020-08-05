@@ -3,15 +3,46 @@ import 'package:strydeapp/welcome.dart';
 import 'connector.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Login extends StatelessWidget {
+
+class Login extends StatefulWidget {
+  Login({Key key, this.title}) : super(key: key);
+  final String title;
+  @override
+  LoginState createState() => LoginState();
+}
+
+class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    final FirebaseAuth _auth = FirebaseAuth.instance;
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
-
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+    bool _success;
+    String _userEmail;
+
+    void _signInWithEmailAndPassword() async {
+      final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      )).user;
+
+      if (user != null) {
+        setState(() {
+          _success = true;
+          _userEmail = user.email;
+        });
+      } else {
+        setState(() {
+          _success = false;
+        });
+      }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return Scaffold(
         body: Center(
@@ -99,6 +130,9 @@ class Login extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           onPressed: () {
+                            // Sign in here
+                            _signInWithEmailAndPassword();
+                            print(_success);
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => Connector(0)));
                           },

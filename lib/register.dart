@@ -103,6 +103,8 @@ class GenderDropdownState extends State<GenderDropdown> {
                       }).toList(),
                     )))));
   }
+
+
 }
 
 class Register extends StatefulWidget {
@@ -113,10 +115,12 @@ class Register extends StatefulWidget {
 }
 
 class RegisterState extends State<Register> {
+
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    final FirebaseAuth _auth = FirebaseAuth.instance;
     final TextEditingController _nameController = TextEditingController();
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
@@ -124,9 +128,29 @@ class RegisterState extends State<Register> {
     final TextEditingController _historyController = TextEditingController();
 
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
     bool _success;
     String _userEmail;
+
+    void _register() async {
+      final FirebaseUser user = (await
+      _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      )
+      ).user;
+      if (user != null) {
+        setState(() {
+          _success = true;
+          _userEmail = user.email;
+        });
+      } else {
+        setState(() {
+          _success = true;
+        });
+      }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return Scaffold(
       body: Center(
@@ -281,6 +305,7 @@ class RegisterState extends State<Register> {
                           // Sign Up button is pressed, grab information here
                           print('Email: ' + _emailController.text);
                           print('Password: ' + _passwordController.text);
+                          _register();
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Firstrun()));
                         },
@@ -309,4 +334,6 @@ class RegisterState extends State<Register> {
       ),
     );
   }
+
+
 }
