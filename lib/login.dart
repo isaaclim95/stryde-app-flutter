@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:strydeapp/welcome.dart';
 import 'connector.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class Login extends StatefulWidget {
@@ -47,6 +48,7 @@ class LoginState extends State<Login> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Center(
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               // Heading
@@ -144,6 +146,7 @@ class LoginState extends State<Login> {
                               } catch (err) {
                                 print('Caught error: $err');
                                 print('Failed to login');
+                                Fluttertoast.showToast(msg: "Failed to login", toastLength: Toast.LENGTH_SHORT, backgroundColor: Colors.black);
                               }
                             }
 
