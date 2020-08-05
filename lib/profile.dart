@@ -1,111 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-String height, weight;
-
-class HeightDropdown extends StatefulWidget {
-  HeightDropdown({Key key}) : super(key: key);
-
-  @override
-  HeightDropdownState createState() => HeightDropdownState();
-}
-
-class HeightDropdownState extends State<HeightDropdown> {
-  @override
-  Widget build(BuildContext context) {
-    List<String> items = <String>[];
-    for (int i = 100; i <= 280; i++) {
-      items.add(i.toString());
-    }
-
-    return Container(
-        width: 110,
-        decoration: BoxDecoration(
-          borderRadius: new BorderRadius.circular(10.0),
-          color: Color(0xFF409ded),
-        ),
-        child: DropdownButtonHideUnderline(
-            child: ButtonTheme(
-                alignedDropdown: true,
-                child: new Theme(
-                    data: Theme.of(context).copyWith(
-                      canvasColor: Color(0xFF409ded),
-                    ),
-                    child: DropdownButton<String>(
-                      value: height,
-                      hint: Text(
-                        "Height",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          height = newValue;
-                        });
-                      },
-                      items:
-                          items.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    )))));
-  }
-}
-
-class WeightDropdown extends StatefulWidget {
-  WeightDropdown({Key key}) : super(key: key);
-
-  @override
-  WeightDropdownState createState() => WeightDropdownState();
-}
-
-class WeightDropdownState extends State<WeightDropdown> {
-  @override
-  Widget build(BuildContext context) {
-    List<String> items = <String>[];
-    for (int i = 20; i <= 300; i++) {
-      items.add(i.toString());
-    }
-
-    return Container(
-        width: 110,
-        decoration: BoxDecoration(
-          borderRadius: new BorderRadius.circular(10.0),
-          color: Color(0xFF409ded),
-        ),
-        child: DropdownButtonHideUnderline(
-            child: ButtonTheme(
-                alignedDropdown: true,
-                child: new Theme(
-                    data: Theme.of(context).copyWith(
-                      canvasColor: Color(0xFF409ded),
-                    ),
-                    child: DropdownButton<String>(
-                      value: weight,
-                      hint: Text(
-                        "Weight",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          weight = newValue;
-                        });
-                      },
-                      items:
-                          items.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    )))));
-  }
-}
+String height, weight, age, sex;
 
 class AgeDropdown extends StatefulWidget {
   AgeDropdown({Key key}) : super(key: key);
@@ -115,8 +11,6 @@ class AgeDropdown extends StatefulWidget {
 }
 
 class AgeDropdownState extends State<AgeDropdown> {
-  String age;
-
   @override
   Widget build(BuildContext context) {
     List<String> items = <String>[];
@@ -168,8 +62,6 @@ class GenderDropdown extends StatefulWidget {
 }
 
 class GenderDropdownState extends State<GenderDropdown> {
-  String sex;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -209,23 +101,34 @@ class GenderDropdownState extends State<GenderDropdown> {
 }
 
 class Profile extends StatelessWidget {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formHealthKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formUserKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+
   final TextEditingController _historyController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    // set values for forms
+    _heightController.text = "180";
+    _weightController.text = "58";
+    _nameController.text = "Daniel";
+    _emailController.text = "test@gmail.com";
+    _historyController.text = "sore leg";
+
     return Material(
       child: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+            child: Column(
           children: [
+            const SizedBox(height: 60),
+
             // Heading
             Text(
               "Profile",
@@ -236,60 +139,109 @@ class Profile extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             // Margin
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
+
+            // Profile icon and name
+            Container(
+                width: 300,
+                child: Row(children: [
+                  Icon(Icons.account_circle, size: 50),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Daniel",
+                    style: TextStyle(fontSize: 18),
+                  )
+                ])),
+
+            // margin
+            const SizedBox(height: 10),
+
+            // Health statistics heading
+            Container(
+              width: 275,
+              child: Text(
+                "Health Statistics:",
+                style: TextStyle(
+                  color: Color(0xFF409ded),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            // margin
+            const SizedBox(height: 10),
 
             Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  // Name TextField
+                key: _formHealthKey,
+                child: Column(children: [
                   Container(
-                    width: 300,
-                    child: TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        fillColor: Color(0xFFf0f0f0),
-                        filled: true,
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        border: OutlineInputBorder(),
-                        labelText: 'Name',
-                      ),
-                    ),
-                  ),
+                      width: 300,
+                      child: Row(
+                        children: [
+                          // height textfield
+                          Container(
+                            width: 90,
+                            child: TextFormField(
+                              controller: _heightController,
+                              decoration: InputDecoration(
+                                  fillColor: Color(0xFFf0f0f0),
+                                  filled: true,
+                                  contentPadding: const EdgeInsets.fromLTRB(
+                                      10.0, 5.0, 10.0, 5.0),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Height',
+                                  hintText: "cm",),
+                            ),
+                          ),
 
-                  // DropDownBoxes Age and Gender
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AgeDropdown(),
-                      const SizedBox(width: 30),
-                      GenderDropdown(),
-                    ],
-                  ),
+                          // margin
+                          const SizedBox(width: 20),
 
-                  const SizedBox(height: 15),
+                          // width textfield
+                          Container(
+                            width: 90,
+                            child: TextFormField(
+                              controller: _weightController,
+                              decoration: InputDecoration(
+                                  fillColor: Color(0xFFf0f0f0),
+                                  filled: true,
+                                  contentPadding: const EdgeInsets.fromLTRB(
+                                      10.0, 5.0, 10.0, 5.0),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Weight',
+                                  hintText: "kg"),
+                            ),
+                          ),
 
-                  // Email TextField
+                          //margin
+                          const SizedBox(width: 20),
+
+                          // BMI Text
+                          Text(
+                            "BMI: 90",
+                            style: TextStyle(fontSize: 16),
+                          )
+                        ],
+                      )),
+
+                  // margin
+                  const SizedBox(height: 10),
+
+                  // Health index text
                   Container(
-                    width: 300,
-                    child: TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        fillColor: Color(0xFFf0f0f0),
-                        filled: true,
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        border: OutlineInputBorder(),
-                        labelText: 'Email',
-                      ),
-                    ),
-                  ),
+                      width: 300,
+                      child: Text(
+                        "Health Index: 7",
+                        style: TextStyle(fontSize: 16),
+                      )),
 
-                  // History of Injury TextField
-                  const SizedBox(height: 15),
+                  // margin
+                  const SizedBox(height: 10),
+
+                  // History of injury Text field
                   Container(
                     width: 300,
                     child: TextFormField(
@@ -305,67 +257,135 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                   ),
+                ])),
 
+            // margin
+            const SizedBox(height: 10),
 
+            // Graph
+            Image(
+              image: AssetImage('images/graph.png'),
+              width: 300,
+            ),
 
-                  // DropDownBoxes Age and Gender
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      HeightDropdown(),
-                      const SizedBox(width: 30),
-                      WeightDropdown(),
-                    ],
+            // margin
+            const SizedBox(height: 10),
+
+            // Save health stats Button
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0)),
+              onPressed: () {
+                // Save
+              },
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(10.0),
+                  color: Color(0xFF409ded),
+                ),
+                width: 180,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                child: const Text('Save', style: TextStyle(fontSize: 20)),
+              ),
+            ),
+
+            // margin
+            const SizedBox(height: 30),
+
+            // User Information heading
+            Container(
+              width: 275,
+              child: Text(
+                "User Information:",
+                style: TextStyle(
+                  color: Color(0xFF409ded),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            // margin
+            const SizedBox(height: 10),
+
+            // Name textfield
+            Form(
+              key: _formUserKey,
+                child: Column(children: [
+              Container(
+                width: 300,
+                child: TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    fillColor: Color(0xFFf0f0f0),
+                    filled: true,
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    border: OutlineInputBorder(),
+                    labelText: 'Name',
                   ),
-                  
-                  const SizedBox(height: 15),
-                  (height != null && weight != null ?
-                    Text("BMI: " + (int.parse(weight)  / pow(int.parse(height) / 100, 2)).toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ) :
-                    Text("BMI: Enter height and weight",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    )
-                  ),
+                ),
+              ),
 
-                  // Buttons
-                  const SizedBox(height: 30),
+              // margin
+              const SizedBox(height: 10),
 
-                  RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0)),
-                    onPressed: () {
-                      // Sign Up button is pressed, grab information here
-                      print('Email: ' + _emailController.text);
-                      print('Password: ' + _passwordController.text);
-                      /*_register();
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => Firstrun()));*/
-                    },
-                    textColor: Colors.white,
-                    padding: const EdgeInsets.all(0.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(10.0),
-                        color: Color(0xFF409ded),
-                      ),
-                      width: 130,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                      child:
-                          const Text('Confirm', style: TextStyle(fontSize: 20)),
-                    ),
+              // Email TextField
+              Container(
+                width: 300,
+                child: TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    fillColor: Color(0xFFf0f0f0),
+                    filled: true,
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    border: OutlineInputBorder(),
+                    labelText: 'Email',
                   ),
+                ),
+              ),
+
+              // DropDownBoxes Age and Gender
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AgeDropdown(),
+                  const SizedBox(width: 30),
+                  GenderDropdown(),
                 ],
               ),
-            )
+            ])),
+
+            // margin
+            const SizedBox(height: 10),
+
+            // save user information button
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0)),
+              onPressed: () {
+                // Save
+              },
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(10.0),
+                  color: Color(0xFF409ded),
+                ),
+                width: 180,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                child: const Text('Save', style: TextStyle(fontSize: 20)),
+              ),
+            ),
           ],
-        ),
+        )),
       ),
     );
   }
