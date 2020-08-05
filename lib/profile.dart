@@ -42,7 +42,6 @@ class HeightDropdownState extends State<HeightDropdown> {
                       style: TextStyle(color: Colors.white, fontSize: 16),
                       onChanged: (String newValue) {
                         setState(() {
-                          print(height);
                           height = newValue;
                         });
                       },
@@ -319,10 +318,10 @@ class Profile extends StatelessWidget {
                       WeightDropdown(),
                     ],
                   ),
-
+                  
                   const SizedBox(height: 15),
                   (height != null && weight != null ?
-                    Text("BMI: " + (int.parse(weight)  / pow(int.parse(height) / 100, 2)).toString(),
+                    Text("BMI: " + (int.parse(weight)  / pow(int.parse(height) / 100, 2)).toStringAsFixed(2),
                       style: TextStyle(
                         fontSize: 20,
                       ),
