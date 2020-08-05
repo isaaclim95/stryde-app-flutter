@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -13,21 +14,32 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     ////////////////////////////////////////////////////////////////////////////
+
+    String uid;
+
+    Future fetchUid() async {
+      uid = (await FirebaseAuth.instance.currentUser()).uid;
+    }
+
     // Methods here
-    void getRows(String column) async {
-      final dbRef = FirebaseDatabase.instance.reference().child("users");
-      dbRef.once().then((DataSnapshot snapshot){
+    Future getValueFromUser(String k) async {
+      String userId = (await FirebaseAuth.instance.currentUser()).uid;
+      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      usersReference.once().then((DataSnapshot snapshot){
         Map<dynamic, dynamic> values = snapshot.value;
-        values.forEach((key,values) {
-          print(values[column]);
-        });
+        print(values[k]);
       });
     }
-    getRows("email");
+
+    getValueFromUser("Height");
+    fetchUid();
+
+
     ////////////////////////////////////////////////////////////////////////////
 
     return Material(
       child: Center(child: Text("Home")),
+
 
     );
   }

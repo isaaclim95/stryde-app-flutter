@@ -291,7 +291,9 @@ class RegisterState extends State<Register> {
                               'Name': _nameController.text,
                               'History of Injury': _historyController.text,
                               'Age': age,
-                              'Sex': sex
+                              'Sex': sex,
+                              'Height': 0,
+                              'Username': ''
                             });
                           }
 
