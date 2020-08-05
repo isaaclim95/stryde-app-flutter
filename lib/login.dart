@@ -24,7 +24,7 @@ class LoginState extends State<Login> {
     bool _success;
     String _userEmail;
 
-    void _signInWithEmailAndPassword() async {
+    Future _signInWithEmailAndPassword() async {
       final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
@@ -41,6 +41,8 @@ class LoginState extends State<Login> {
         });
       }
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,11 +132,23 @@ class LoginState extends State<Login> {
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           onPressed: () {
+
                             // Sign in here
-                            _signInWithEmailAndPassword();
-                            print(_success);
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => Connector(0)));
+                            Future login() async {
+                              try {
+                                print('Attempting to login...');
+                                await _signInWithEmailAndPassword();
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => Connector(0)));
+                                print('Successfully logged in');
+                              } catch (err) {
+                                print('Caught error: $err');
+                                print('Failed to login');
+                              }
+                            }
+
+                            login();
+
                           },
                           textColor: Colors.white,
                           padding: const EdgeInsets.all(0.0),
