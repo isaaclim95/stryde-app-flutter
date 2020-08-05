@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'firstrun.dart';
 import 'welcome.dart';
+
+String age;
+String sex;
 
 class AgeDropdown extends StatefulWidget {
   AgeDropdown({Key key}) : super(key: key);
@@ -12,7 +16,7 @@ class AgeDropdown extends StatefulWidget {
 }
 
 class AgeDropdownState extends State<AgeDropdown> {
-  String age;
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +69,7 @@ class GenderDropdown extends StatefulWidget {
 }
 
 class GenderDropdownState extends State<GenderDropdown> {
-  String sex;
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +119,8 @@ class Register extends StatefulWidget {
 }
 
 class RegisterState extends State<Register> {
-
   @override
   Widget build(BuildContext context) {
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final TextEditingController _nameController = TextEditingController();
@@ -126,30 +128,10 @@ class RegisterState extends State<Register> {
     final TextEditingController _passwordController = TextEditingController();
     final TextEditingController _confirmPasswordController = TextEditingController();
     final TextEditingController _historyController = TextEditingController();
-
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     bool _success;
     String _userEmail;
-
-    void _register() async {
-      final FirebaseUser user = (await
-      _auth.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      )
-      ).user;
-      if (user != null) {
-        setState(() {
-          _success = true;
-          _userEmail = user.email;
-        });
-      } else {
-        setState(() {
-          _success = true;
-        });
-      }
-    }
-
+    FirebaseUser user;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return Scaffold(
@@ -302,9 +284,36 @@ class RegisterState extends State<Register> {
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(10.0)),
                         onPressed: () {
-                          // Sign Up button is pressed, grab information here
-                          print('Email: ' + _emailController.text);
-                          print('Password: ' + _passwordController.text);
+
+                          Future updateRow() async {
+                            final usersReference = FirebaseDatabase.instance.reference().child("users").child(user.uid);
+                            usersReference.set({
+                              'Name': _nameController.text,
+                              'History of Injury': _historyController.text,
+                              'Age': age,
+                              'Sex': sex
+                            });
+                          }
+
+                          Future _register() async {
+                            user = (await
+                            _auth.createUserWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            )
+                            ).user;
+                            if (user != null) {
+                              setState(() {
+                                _success = true;
+                                _userEmail = user.email;
+                              });
+                              updateRow();
+                            } else {
+                              setState(() {
+                                _success = true;
+                              });
+                            }
+                          }
                           _register();
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Firstrun()));
@@ -334,6 +343,4 @@ class RegisterState extends State<Register> {
       ),
     );
   }
-
-
 }
