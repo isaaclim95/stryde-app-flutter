@@ -20,19 +20,37 @@ class TrainingState extends State<Training> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
+    return Material(
+      child: Column(
+        children: [
+          // margin
+          const SizedBox(height: 60),
 
-        padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
+          // Heading
+          Text(
+            "Training",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFF409ded),
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
 
-          itemCount: _listImages.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
-          itemBuilder: (_, index) {
-            return Image.asset(_listImages[index], fit: BoxFit.cover, width: 100, height: 100);
-          },
-        ),
-      ),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                itemCount: _listImages.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20, ),
+                itemBuilder: (_, index) {
+                  return Image.asset(_listImages[index], fit: BoxFit.cover, width: 100, height: 100);
+                },
+              ),
+            ),
+          )
+        ]
+      )
     );
   }
 
