@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -100,27 +101,80 @@ class GenderDropdownState extends State<GenderDropdown> {
   }
 }
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  ProfileState createState() => ProfileState();
+}
+
+class ProfileState extends State<Profile> {
+
   final GlobalKey<FormState> _formHealthKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formUserKey = GlobalKey<FormState>();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _historyController = TextEditingController();
 
   @override
+  void initState() {
+    _heightController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _heightController.dispose();
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+
+    ////////////////////////////////////////////////////////////////////////////
     // set values for forms
-    _heightController.text = "180";
-    _weightController.text = "58";
-    _nameController.text = "Daniel";
-    _emailController.text = "test@gmail.com";
-    _historyController.text = "sore leg";
+
+
+    String uid;
+
+    Future fetchUid() async {
+      uid = (await FirebaseAuth.instance.currentUser()).uid;
+    }
+
+    // Methods here
+    Future getValueFromUser(String k) async {
+      String userId = (await FirebaseAuth.instance.currentUser()).uid;
+      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      usersReference.once().then((DataSnapshot snapshot){
+        Map<dynamic, dynamic> values = snapshot.value;
+//        print(values[k]);
+      });
+    }
+
+
+
+    getValueFromUser("Height");
+    fetchUid();
+
+    Future setTextControllers() async {
+      String userId = (await FirebaseAuth.instance.currentUser()).uid;
+      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      usersReference.once().then((DataSnapshot snapshot){
+        Map<dynamic, dynamic> values = snapshot.value;
+        _heightController.text = values['Height'].toString();
+        _weightController.text= values['Weight'].toString();
+        _nameController.text = values['Name'].toString();
+        _emailController.text = values['Email'].toString();
+        _historyController.text = values['History of Injury'].toString();
+      });
+    }
+
+    setTextControllers();
+
+    ////////////////////////////////////////////////////////////////////////////
 
     return Material(
       child: Center(
