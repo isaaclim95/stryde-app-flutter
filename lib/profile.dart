@@ -323,7 +323,7 @@ class ProfileState extends State<Profile> {
                         fillColor: Color(0xFFf0f0f0),
                         filled: true,
                         contentPadding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                            const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
                         border: OutlineInputBorder(),
                         labelText: 'History of Injury',
                       ),
@@ -338,31 +338,6 @@ class ProfileState extends State<Profile> {
             Image(
               image: AssetImage('images/graph.png'),
               width: 300,
-            ),
-
-            // margin
-            const SizedBox(height: 10),
-
-            // Save health stats Button
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0)),
-              onPressed: () {
-                // Save
-                updateRow();
-              },
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(10.0),
-                  color: Color(0xFF409ded),
-                ),
-                width: 180,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                child: const Text('Save', style: TextStyle(fontSize: 20)),
-              ),
             ),
 
             // margin
@@ -437,12 +412,13 @@ class ProfileState extends State<Profile> {
             // margin
             const SizedBox(height: 10),
 
-            // save user information button
+            // Save button
             RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(10.0)),
               onPressed: () {
                 // Save
+                updateRow();
               },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0.0),
