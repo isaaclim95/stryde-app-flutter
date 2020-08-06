@@ -118,19 +118,6 @@ class ProfileState extends State<Profile> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _historyController = TextEditingController();
 
-  @override
-  void initState() {
-    _heightController.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _heightController.dispose();
-    super.dispose();
-  }
 
 
   @override
@@ -182,7 +169,6 @@ class ProfileState extends State<Profile> {
     }
 
 
-    updateRow();
     setTextControllers();
 
     ////////////////////////////////////////////////////////////////////////////
