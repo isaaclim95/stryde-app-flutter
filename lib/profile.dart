@@ -165,9 +165,7 @@ class ProfileState extends State<Profile> {
       usersReference.update({'Name' : _nameController.text});
       usersReference.update({'Email' : _emailController.text});
       usersReference.update({'History of Injury' : _historyController.text});
-
     }
-
 
     setTextControllers();
 
