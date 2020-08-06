@@ -41,6 +41,7 @@ class TrainingState extends State<Training> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
+                padding: const EdgeInsets.all(0),
                 itemCount: _listImages.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20, ),
                 itemBuilder: (_, index) {
