@@ -126,24 +126,6 @@ class ProfileState extends State<Profile> {
     ////////////////////////////////////////////////////////////////////////////
     // set values for forms
 
-    String uid;
-    FirebaseUser user;
-
-    Future fetchUid() async {
-      uid = (await FirebaseAuth.instance.currentUser()).uid;
-    }
-
-    // Methods here
-    Future getValueFromUser(String k) async {
-      String userId = (await FirebaseAuth.instance.currentUser()).uid;
-      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
-      usersReference.once().then((DataSnapshot snapshot){
-        Map<dynamic, dynamic> values = snapshot.value;
-        print(values[k]);
-      });
-    }
-
-
     Future setTextControllers() async {
       String userId = (await FirebaseAuth.instance.currentUser()).uid;
       final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);

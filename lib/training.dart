@@ -22,8 +22,10 @@ class TrainingState extends State<Training> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
+
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
+
           itemCount: _listImages.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
           itemBuilder: (_, index) {
