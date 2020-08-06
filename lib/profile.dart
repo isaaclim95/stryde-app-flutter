@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -137,8 +139,8 @@ class ProfileState extends State<Profile> {
     ////////////////////////////////////////////////////////////////////////////
     // set values for forms
 
-
     String uid;
+    FirebaseUser user;
 
     Future fetchUid() async {
       uid = (await FirebaseAuth.instance.currentUser()).uid;
@@ -150,14 +152,10 @@ class ProfileState extends State<Profile> {
       final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
       usersReference.once().then((DataSnapshot snapshot){
         Map<dynamic, dynamic> values = snapshot.value;
-//        print(values[k]);
+        print(values[k]);
       });
     }
 
-
-
-    getValueFromUser("Height");
-    fetchUid();
 
     Future setTextControllers() async {
       String userId = (await FirebaseAuth.instance.currentUser()).uid;
@@ -172,6 +170,19 @@ class ProfileState extends State<Profile> {
       });
     }
 
+    Future updateRow() async {
+      String userId = (await FirebaseAuth.instance.currentUser()).uid;
+      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      usersReference.update({'Height' : _heightController.text});
+      usersReference.update({'Weight' : _weightController.text});
+      usersReference.update({'Name' : _nameController.text});
+      usersReference.update({'Email' : _emailController.text});
+      usersReference.update({'History of Injury' : _historyController.text});
+
+    }
+
+
+    updateRow();
     setTextControllers();
 
     ////////////////////////////////////////////////////////////////////////////
@@ -331,6 +342,7 @@ class ProfileState extends State<Profile> {
                   borderRadius: new BorderRadius.circular(10.0)),
               onPressed: () {
                 // Save
+                updateRow();
               },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0.0),
