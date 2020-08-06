@@ -214,9 +214,16 @@ class ProfileState extends State<Profile> {
                 child: Row(children: [
                   Icon(Icons.account_circle, size: 50),
                   const SizedBox(width: 10),
-                  Text(
-                    "Daniel",
-                    style: TextStyle(fontSize: 18),
+                  Container(
+                      width: 180,
+                      child: TextField(
+                        readOnly: true,
+                        controller: _nameController,
+                        style: TextStyle(fontSize: 18),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      )
                   )
                 ])),
 
