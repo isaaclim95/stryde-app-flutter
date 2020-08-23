@@ -5,7 +5,8 @@ void main() {
   runApp(
     MaterialApp(
         title: 'Stryde',
-        home: Welcome()
+        home: Welcome(),
+      debugShowCheckedModeBanner: false,
     ),
   );
 }
