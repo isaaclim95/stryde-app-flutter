@@ -41,6 +41,12 @@ class RegisterState extends State<Register> {
     final TextEditingController _nameController = TextEditingController();
     final TextEditingController _injury_historyController = TextEditingController();
 
+    /////////////
+    HeightDropdown heightDropdown = HeightDropdown();
+    AgeDropdown ageDropdown = AgeDropdown();
+    GenderDropdown genderDropdown = GenderDropdown();
+    WeightDropdown weightDropdown = WeightDropdown();
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return Scaffold(
       body: GestureDetector(
@@ -119,7 +125,7 @@ class RegisterState extends State<Register> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        HeightDropdown(),
+                        heightDropdown,
                         WeightDropdown()
                       ],
                     ),
@@ -143,9 +149,13 @@ class RegisterState extends State<Register> {
                     RaisedButton(
 //                      onPressed: signOut,
                       onPressed: ()   {
+                        print(heightDropdown.getHeight);
+                        print(weightDropdown.getWeight);
+                        print(genderDropdown.getSex);
+                        print(ageDropdown.getAge);
                         signUp(email: _emailController.text, password: _passwordController.text,
-                        name: _nameController.text, age: 24, sex: "Male", height: 179,
-                        weight: 70, injury_history: _injury_historyController.text);
+                        name: _nameController.text, age: int.parse(ageDropdown.getAge), sex: genderDropdown.getSex, height: double.parse(heightDropdown.getHeight),
+                        weight: double.parse(weightDropdown.getWeight), injury_history: _injury_historyController.text);
                         Navigator.push(context, MaterialPageRoute(builder: (context) => Firstrun()));
                       },
 

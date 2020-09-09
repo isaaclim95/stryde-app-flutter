@@ -7,6 +7,10 @@ class HeightDropdown extends StatefulWidget {
 
   @override
   HeightDropdownState createState() => HeightDropdownState();
+
+  String get getHeight{
+    return height;
+  }
 }
 
 class HeightDropdownState extends State<HeightDropdown> {
@@ -59,6 +63,10 @@ class WeightDropdown extends StatefulWidget {
 
   @override
   WeightDropdownState createState() => WeightDropdownState();
+
+  String get getWeight{
+    return weight;
+  }
 }
 
 class WeightDropdownState extends State<WeightDropdown> {
@@ -108,8 +116,13 @@ class WeightDropdownState extends State<WeightDropdown> {
 
 class GenderDropdown extends StatefulWidget {
   GenderDropdown({Key key}) : super(key: key);
+
   @override
   GenderDropdownState createState() => GenderDropdownState();
+
+  String get getSex{
+    return sex;
+  }
 }
 
 class GenderDropdownState extends State<GenderDropdown> {
@@ -157,6 +170,10 @@ class AgeDropdown extends StatefulWidget {
 
   @override
   AgeDropdownState createState() => AgeDropdownState();
+
+  String get getAge{
+    return age;
+  }
 }
 
 class AgeDropdownState extends State<AgeDropdown> {
