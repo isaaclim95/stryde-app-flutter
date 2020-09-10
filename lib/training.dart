@@ -64,7 +64,7 @@ class TrainingState extends State<Training> {
               fontWeight: FontWeight.bold,
             ),
           ),
-
+          SizedBox(height: 10),
           Flexible(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
