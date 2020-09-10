@@ -19,7 +19,7 @@ class AuthenticationService {
   }
 
   Future getUid() async {
-    return (await _firebaseAuth.currentUser()).uid;
+    return _firebaseAuth.currentUser.uid;
   }
 
   Future signUpWithEmail({
@@ -45,7 +45,7 @@ class AuthenticationService {
     @required String injury_history
   }) async  {
     try {
-      String userId = (await _firebaseAuth.currentUser()).uid;
+      String userId = _firebaseAuth.currentUser.uid;
       final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
       usersReference.update({'email' : email});
       usersReference.update({'password' : password});

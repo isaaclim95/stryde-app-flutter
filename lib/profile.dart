@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'graph.dart';
+import 'services/globals.dart' as globals;
 
 String height, weight, age, sex;
 var _heightController = TextEditingController();
@@ -20,37 +21,44 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile> {
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-  Future setTextControllers() async  {
+  /// Sets all text controllers with the values from globals.dart
+  void setTextControllers() {
     print("setTextControllers()");
-    try {
-      String userId = (await _firebaseAuth.currentUser()).uid;
-      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
-      usersReference.once().then((DataSnapshot snapshot) {
-        Map<dynamic, dynamic> values = snapshot.value;
-        _heightController.text = values['height'].toString();
-        _weightController.text= values['weight'].toString();
-        _nameController.text = values['name'].toString();
-        _ageController.text = values['age'].toString();
-        _historyController.text = values['injury_history'].toString();
-      }).then((value)  {
-        _bmiController.text = (double.parse(_weightController.text) / (double.parse(_heightController.text) * double.parse(_heightController.text))).toStringAsFixed(3);
-      });
-    } catch (e){
-      print(e);
-    }
+
+    _heightController.text = globals.height;
+    _weightController.text = globals.weight;
+    _nameController.text = globals.name;
+    _ageController.text = globals.age;
+    _historyController.text = globals.injury_history;
+    _bmiController.text = (double.parse(globals.weight) / ((double.parse(globals.height) * double.parse(globals.height)) / 100)).toStringAsFixed(3);
   }
 
+  /// Saves the information from the profile page into the database
+  /// and updates the global variables to match
+  ///
+  /// Executed when "Save" button is clicked
   Future saveProfile() async {
-    print("saveprofile");
-    String userId = (await FirebaseAuth.instance.currentUser()).uid;
+    print("saveProfile()");
+
+    // Updating profile information in database
+    String userId = FirebaseAuth.instance.currentUser.uid;
     final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
     usersReference.update({'height' : _heightController.text});
     usersReference.update({'weight' : _weightController.text});
+    usersReference.update({'age' : _ageController.text});
     usersReference.update({'injury_history' : _historyController.text});
+
+    // Updating local profile information
+    globals.height = _heightController.text;
+    globals.weight = _weightController.text;
+    globals.age = _ageController.text;
+    globals.injury_history = _historyController.text;
+
+    // Un-focusing all fields
     FocusScope.of(context).unfocus();
     new TextEditingController().clear();
+
+    // Showing toast after completion
     Fluttertoast.showToast(
         msg: "Profile saved",
         toastLength: Toast.LENGTH_SHORT,
@@ -64,15 +72,12 @@ class ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    setTextControllers().then((value){
-      print('setTextControllers done.');
-    });
+    setTextControllers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,

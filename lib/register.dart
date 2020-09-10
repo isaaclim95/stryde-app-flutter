@@ -43,8 +43,6 @@ class RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    /////////////
     HeightDropdown heightDropdown = HeightDropdown();
     AgeDropdown ageDropdown = AgeDropdown();
     GenderDropdown genderDropdown = GenderDropdown();
@@ -145,12 +143,11 @@ class RegisterState extends State<Register> {
                           const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
                           border: OutlineInputBorder(),
                           labelText: 'History of injuries (if any)',
-                          labelStyle: TextStyle(color: Colors.grey,),
+                          labelStyle: TextStyle(color: Colors.grey)
                         ),
                       ),
                     ),
                     RaisedButton(
-//                      onPressed: signOut,
                       onPressed: ()   {
                         print(heightDropdown.getHeight);
                         print(weightDropdown.getWeight);

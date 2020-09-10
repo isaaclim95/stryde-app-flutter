@@ -21,7 +21,7 @@ class HomeState extends State<Home> {
   Future setTextControllers() async  {
     print("setTextControllers()");
     try {
-      String userId = (await _firebaseAuth.currentUser()).uid;
+      String userId = _firebaseAuth.currentUser.uid;
       final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
       usersReference.once().then((DataSnapshot snapshot) {
         Map<dynamic, dynamic> values = snapshot.value;
@@ -38,16 +38,13 @@ class HomeState extends State<Home> {
     setTextControllers().then((value){
       print('setTextControllers done.');
     });
-    exercise = DailyExercise(nameText: _nameController.text, changeExerciseFunc: changeExercise);
+//    exercise = DailyExercise(nameText: _nameController.text, changeExerciseFunc: changeExercise);
     super.initState();
   }
 
   void changeExercise(){
     setState(() {
       print(exercise);
-      if(){
-
-      }
       exercise = Text("TEST");
       //print(exercise);
     });
@@ -55,7 +52,7 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    //exercise = DailyExercise(nameText: _nameController.text, changeExerciseFunc: changeExercise);
+    exercise = DailyExercise(nameText: "name", changeExerciseFunc: changeExercise);
     return Scaffold(
         body: GestureDetector(
           onTap: () {

@@ -1,8 +1,10 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:strydeapp/welcome.dart';
 import 'connector.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'services/globals.dart' as globals;
 
 
 class Login extends StatefulWidget {
@@ -13,40 +15,69 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  var _emailController = TextEditingController();
+  var _passwordController = TextEditingController();
+  var _formKey = GlobalKey<FormState>();
+
+  bool _success;
+  String _userEmail;
+
+  /// Signs in with email and password from text controllers
+  Future _signInWithEmailAndPassword() async {
+    var user = (await _firebaseAuth.signInWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    )).user;
+
+    if (user != null) {
+      setState(() {
+        _success = true;
+        _userEmail = user.email;
+      });
+    } else {
+      setState(() {
+        _success = false;
+      });
+    }
+  }
+
+  /// Gets user data from database using their uid, then
+  /// saves it to the global variables
+  Future getData() async {
+    String userId = _firebaseAuth.currentUser.uid;
+    final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    usersReference.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      globals.name = values['name'].toString();
+      globals.age = values['age'].toString();
+      globals.weight = values['weight'].toString();
+      globals.height = values['height'].toString();
+      globals.injury_history = values['injury_history'].toString();
+    });
+  }
+
+  /// Executes _signInWithEmailAndPassword and getData
+  Future login() async {
+    try {
+      print('Attempting to login...');
+      await _signInWithEmailAndPassword().then((value) {
+        print('Successfully logged in');
+        getData();
+        // Changing page
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => Connector(0)));
+      });
+    } catch (err) {
+      print('Caught error: $err');
+      print('Failed to login');
+      Fluttertoast.showToast(msg: "Failed to login", toastLength: Toast.LENGTH_SHORT, backgroundColor: Colors.black, gravity: ToastGravity.BOTTOM);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-    bool _success;
-    String _userEmail;
-
-    Future _signInWithEmailAndPassword() async {
-      final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      )).user;
-
-      if (user != null) {
-        setState(() {
-          _success = true;
-          _userEmail = user.email;
-        });
-      } else {
-        setState(() {
-          _success = false;
-        });
-      }
-    }
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
         body: Center(
@@ -135,22 +166,7 @@ class LoginState extends State<Login> {
                           onPressed: () {
                             // Un-focus keyboard
                             FocusScope.of(context).requestFocus(FocusNode());
-
-                            // Sign in here
-                            Future login() async {
-                              try {
-                                print('Attempting to login...');
-                                await _signInWithEmailAndPassword();
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => Connector(0)));
-                                print('Successfully logged in');
-                              } catch (err) {
-                                print('Caught error: $err');
-                                print('Failed to login');
-                                Fluttertoast.showToast(msg: "Failed to login", toastLength: Toast.LENGTH_SHORT, backgroundColor: Colors.black, gravity: ToastGravity.BOTTOM);
-                              }
-                            }
-                              login();
+                            login();
                           },
                           textColor: Colors.white,
                           padding: const EdgeInsets.all(0.0),
