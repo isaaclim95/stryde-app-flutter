@@ -202,8 +202,10 @@ class _CameraAppState extends State<CameraApp>
           if(duration == 0){
             timer.cancel();
             stopVideoRecording().then((_) {
+              //////////////////////////////////////////////////////////////////
+              // Firebase code here using videoPath as directory
               if (mounted) setState(() {});
-              //showInSnackBar('Video recorded to: $videoPath');
+              // print('Video recorded to: $videoPath');
             });
           }
         });
@@ -218,7 +220,7 @@ class _CameraAppState extends State<CameraApp>
   Future<String> startVideoRecording() async {
 
     final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Movies/flutter_test';
+    final String dirPath = '${extDir.path}/Stryde_Videos';
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.mp4';
 
