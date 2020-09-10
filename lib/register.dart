@@ -3,6 +3,12 @@ import 'dropdowns.dart';
 import 'services/firebase_service_model.dart';
 import 'firstrun.dart';
 
+
+var _emailController = TextEditingController();
+var _passwordController = TextEditingController();
+var _nameController = TextEditingController();
+var _injury_historyController = TextEditingController();
+
 class Register extends StatefulWidget {
   Register({Key key, this.title}) : super(key: key);
   final String title;
@@ -36,10 +42,7 @@ class RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _injury_historyController = TextEditingController();
+
 
     /////////////
     HeightDropdown heightDropdown = HeightDropdown();
