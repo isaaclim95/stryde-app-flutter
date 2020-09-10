@@ -5,6 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
 
 String height, weight, age, sex;
+var _heightController = TextEditingController();
+var _weightController = TextEditingController();
+var _nameController = TextEditingController();
+var _historyController = TextEditingController();
+var _bmiController = TextEditingController();
+var _ageController = TextEditingController();
 
 class Profile extends StatefulWidget {
   @override
@@ -16,15 +22,8 @@ class ProfileState extends State<Profile> {
   final AuthenticationService _authenticationService = AuthenticationService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  final TextEditingController _heightController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _historyController = TextEditingController();
-  final TextEditingController _bmiController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-
-
   Future setTextControllers() async  {
+    print("setTextControllers()");
     try {
       String userId = (await _firebaseAuth.currentUser()).uid;
       final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
@@ -44,7 +43,9 @@ class ProfileState extends State<Profile> {
   }
 
 
+
   Future saveProfile() async {
+    print("saveprofile");
     String userId = (await FirebaseAuth.instance.currentUser()).uid;
     final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
     usersReference.update({'height' : _heightController.text});
@@ -54,11 +55,18 @@ class ProfileState extends State<Profile> {
     new TextEditingController().clear();
   }
 
+  @override
+  void initState() {
+    setTextControllers().then((value){
+      print('setTextControllers done.');
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    setTextControllers();
+
 
     return Scaffold(
       body: GestureDetector(

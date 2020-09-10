@@ -53,7 +53,7 @@ class RegisterState extends State<Register> {
         behavior: HitTestBehavior.translucent,
         onTap: () {
           FocusScope.of(context).unfocus();
-          new TextEditingController().clear();
+//          new TextEditingController().clear();
         },
         child: Container(
           padding: EdgeInsets.all(30.0),
