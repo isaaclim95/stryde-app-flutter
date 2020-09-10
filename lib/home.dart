@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'services/globals.dart' as globals;
 
 Widget exercise;
 
@@ -103,7 +104,7 @@ class _DailyExerciseState extends State<DailyExercise>{
     return Column(
       children: [
         Text(
-          "Hi " + widget.nameText + ",",
+          "Hi " + globals.name + ",",
           style: GoogleFonts.openSans(
               fontSize: 24,
               fontWeight: FontWeight.w600
