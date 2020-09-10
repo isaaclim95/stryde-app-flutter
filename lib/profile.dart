@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:strydeapp/services/firebase_service_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 String height, weight, age, sex;
@@ -32,9 +31,9 @@ class ProfileState extends State<Profile> {
         _heightController.text = values['height'].toString();
         _weightController.text= values['weight'].toString();
         _nameController.text = values['name'].toString();
+        _ageController.text = values['age'].toString();
         _historyController.text = values['injury_history'].toString();
       }).then((value)  {
-        print(_heightController.text);
         _bmiController.text = (double.parse(_weightController.text) / (double.parse(_heightController.text) * double.parse(_heightController.text))).toStringAsFixed(3);
       });
     } catch (e){
@@ -151,14 +150,22 @@ class ProfileState extends State<Profile> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 50),
-                                IntrinsicWidth(
-                                  child: TextField(
-                                      decoration: null,
-                                      enabled: true,
-                                      controller: _ageController
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0, bottom: 15.0),
+                                  child: IntrinsicWidth(
+                                    child: TextField(
+                                        decoration: null,
+                                        style: GoogleFonts.openSans(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600
+                                        ),
+                                        enabled: true,
+                                        controller: _ageController
+                                    ),
                                   ),
                                 ),
+                                SizedBox(width: 50),
+
                               ],
                             ),
                           ],

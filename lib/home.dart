@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -8,116 +11,112 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  final TextEditingController _nameController = TextEditingController();
+
+  var _nameController = TextEditingController();
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future setTextControllers() async  {
+    print("setTextControllers()");
+    try {
+      String userId = (await _firebaseAuth.currentUser()).uid;
+      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      usersReference.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        _nameController.text = values['name'].toString();
+      });
+    } catch (e){
+      print(e);
+    }
+  }
+
+
+  @override
+  void initState() {
+    setTextControllers().then((value){
+      print('setTextControllers done.');
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    _nameController.text = "Name Here";
-
-    return Material(
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // margin
-              const SizedBox(height: 60),
-
-              // Heading
-              Text(
-                "Home",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF409ded),
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              // Margin
-              const SizedBox(height: 10),
-
-              // Introduction Text
-              Container(
-                width: 300,
-                child: Row(
-                  children: [
-                    Text(
-                      "Hello ",
-                      style: TextStyle(fontSize: 18),
+    return Scaffold(
+        body: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            } else  {
+              print("hi");
+            }
+          },
+          child: Container(
+//            color: Colors.red,
+            padding: EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0, bottom: 10.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 30),
+                  Text(
+                    "Hi " + _nameController.text + ",",
+                    style: GoogleFonts.openSans(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600
                     ),
-                    Container(
-                        width: 180,
-                        child: TextField(
-                          readOnly: true,
-                          controller: _nameController,
-                          style: TextStyle(fontSize: 18),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        )
-                    )
-                ])
-              ),
-              Container(
-                width: 300,
-                child: Text(
-                  "Using this app will allow you to better understand your posture and how to correct it. Goodluck!",
-                  style: TextStyle(fontSize: 18),
-                )
-              ),
-
-              // margin
-              const SizedBox(height: 30),
-
-              // Health statistics heading
-              Container(
-                width: 275,
-                child: Text(
-                  "Suggested Exercises:",
-                  style: TextStyle(
-                    color: Color(0xFF409ded),
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.center,
                   ),
-                ),
-              ),
+                  Text(
+                    "How long have you exercised for today?",
+                    style: GoogleFonts.openSans(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center ,
+                    children: [
+                      Container(
+                        width: 100,
+                        child: TextField(
+                          decoration: new InputDecoration(
+                            contentPadding: EdgeInsets.all(-5),
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                              borderSide: new BorderSide(
+                              ),
+                            ),
+                          //fillColor: Colors.green
+                          ),
+                          style: GoogleFonts.openSans(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      RaisedButton(
+                        child: Text('minutes'),
+//                        color: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {},
+                      )
 
-              // margin
-              const SizedBox(height: 10),
-
-              // Image example 1
-              Image(
-                image: AssetImage('images/situp.png'),
-                width: 200,
-              ),
-
-              // margin
-              const SizedBox(height: 5),
-
-              // Exercise text 1
-              Text("Situps"),
-
-              // margin
-              const SizedBox(height: 10),
-
-              // Image example 2
-              Image(
-                image: AssetImage('images/tpushup.png'),
-                width: 200,
-              ),
-
-              // margin
-              const SizedBox(height: 5),
-
-              // Exercise text 2
-              Text("T Push-up"),
-
-            ],
-          )
+                    ],
+                  ),
+                  SizedBox(height: 500)
+                ]
+              )
+            ),
+          ),
         )
-      )
-
-
     );
   }
 }

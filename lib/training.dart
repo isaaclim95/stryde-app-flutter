@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class Training extends StatefulWidget {
   @override
@@ -14,11 +12,9 @@ class TrainingState extends State<Training> {
   List<String> _listNames = [];
 
   Future _initImages() async {
-    // >> To get paths you need these 2 lines
     final manifestContent = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
 
     final Map<String, dynamic> manifestMap = json.decode(manifestContent);
-    // >> To get paths you need these 2 lines
 
     final imagePaths = manifestMap.keys
         .where((String key) => key.contains('images/'))
@@ -29,7 +25,6 @@ class TrainingState extends State<Training> {
       _listImages = imagePaths;
     });
   }
-
 
   @override
   void initState() {
@@ -53,7 +48,6 @@ class TrainingState extends State<Training> {
         children: [
           // margin
           const SizedBox(height: 60),
-
           // Heading
           Text(
             "Training",

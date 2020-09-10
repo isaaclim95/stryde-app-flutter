@@ -69,6 +69,7 @@ class ConnectorState extends State<Connector> {
       ),
     );
   }
+
   ConnectorState(int selectedIndex){
     this.selectedIndex = selectedIndex;
   }
