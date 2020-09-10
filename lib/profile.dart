@@ -20,7 +20,6 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile> {
 
-  final AuthenticationService _authenticationService = AuthenticationService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future setTextControllers() async  {
@@ -42,8 +41,6 @@ class ProfileState extends State<Profile> {
       print(e);
     }
   }
-
-
 
   Future saveProfile() async {
     print("saveprofile");
@@ -75,8 +72,6 @@ class ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     return Scaffold(
       body: GestureDetector(

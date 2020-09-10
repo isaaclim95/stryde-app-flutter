@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -13,31 +11,8 @@ class HomeState extends State<Home> {
   final TextEditingController _nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
     _nameController.text = "Name Here";
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    String uid;
-
-    Future fetchUid() async {
-      uid = (await FirebaseAuth.instance.currentUser()).uid;
-    }
-
-    // Methods here
-    Future getValueFromUser(String k) async {
-      String userId = (await FirebaseAuth.instance.currentUser()).uid;
-      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
-      usersReference.once().then((DataSnapshot snapshot){
-        Map<dynamic, dynamic> values = snapshot.value;
-        print(values[k]);
-      });
-    }
-
-    getValueFromUser("Height");
-    fetchUid();
-
-
-    ////////////////////////////////////////////////////////////////////////////
 
     return Material(
       child: Center(

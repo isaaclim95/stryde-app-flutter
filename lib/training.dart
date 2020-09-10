@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Training extends StatefulWidget {
   @override
@@ -7,16 +10,41 @@ class Training extends StatefulWidget {
 
 class TrainingState extends State<Training> {
 
-  List<String> _listImages = [
-    "images/a.jpg",
-    "images/b.jpg",
-    "images/c.jpg",
-    "images/d.jpg",
-    "images/e.jpg",
-    "images/f.jpg",
-    "images/g.jpg",
-    "images/h.jpg",
-  ];
+  List<String> _listImages = [];
+  List<String> _listNames = [];
+
+  Future _initImages() async {
+    // >> To get paths you need these 2 lines
+    final manifestContent = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+
+    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+    // >> To get paths you need these 2 lines
+
+    final imagePaths = manifestMap.keys
+        .where((String key) => key.contains('images/'))
+        .where((String key) => key.contains('.gif'))
+        .toList();
+
+    setState(() {
+      _listImages = imagePaths;
+    });
+  }
+
+
+  @override
+  void initState() {
+    _initImages().then((value){
+      print('_initImages() done.');
+      for(var name in _listImages)  {
+        name = name.replaceAll("images/", "");
+        name = name.replaceAll(".gif", "");
+        name = name.replaceAll("_", " ");
+        name = '${name[0].toUpperCase()}${name.substring(1)}';
+        _listNames.add(name);
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +73,14 @@ class TrainingState extends State<Training> {
                 itemCount: _listImages.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20, ),
                 itemBuilder: (_, index) {
-                  return Image.asset(_listImages[index], fit: BoxFit.cover, width: 100, height: 100);
+                  return Container(
+                      child: Column(
+                        children: [
+                          Text(_listNames[index]),
+                          Image.asset(_listImages[index], fit: BoxFit.cover, width: 200, height: 150),
+                        ],
+                      )
+                  );
                 },
               ),
             ),
