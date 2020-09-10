@@ -22,11 +22,11 @@ class RegisterState extends State<Register> {
       @required double height,
       @required double weight,
       @required String injury_history}) async {
-    _authenticationService.signUpWithEmail(email: email, password: password);
-    _authenticationService.putSignupData(email: email, password: password, name: name,
-        age: age, sex: sex, height: height, weight: weight, injury_history: injury_history);
+    await _authenticationService.signUpWithEmail(email: email, password: password).then((value) async  {
+      _authenticationService.putSignupData(email: email, password: password, name: name,
+          age: age, sex: sex, height: height, weight: weight, injury_history: injury_history);
+    });
   }
-
 
   @override
   void initState() {

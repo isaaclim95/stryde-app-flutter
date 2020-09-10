@@ -18,6 +18,10 @@ class AuthenticationService {
     }
   }
 
+  Future getUid() async {
+    return (await _firebaseAuth.currentUser()).uid;
+  }
+
   Future signUpWithEmail({
     @required String email,
     @required String password,
@@ -60,6 +64,4 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
     return Future.value("Logged out");
   }
-
-
 }

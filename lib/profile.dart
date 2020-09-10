@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
@@ -12,6 +14,7 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> {
 
   final AuthenticationService _authenticationService = AuthenticationService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
@@ -20,13 +23,43 @@ class ProfileState extends State<Profile> {
   final TextEditingController _bmiController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
-  void saveProfile()  {
-    print("save profile");
+
+  Future setTextControllers() async  {
+    try {
+      String userId = (await _firebaseAuth.currentUser()).uid;
+      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      usersReference.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        _heightController.text = values['height'].toString();
+        _weightController.text= values['weight'].toString();
+        _nameController.text = values['name'].toString();
+        _historyController.text = values['injury_history'].toString();
+      }).then((value)  {
+        print(_heightController.text);
+        _bmiController.text = (double.parse(_weightController.text) / (double.parse(_heightController.text) * double.parse(_heightController.text))).toStringAsFixed(3);
+      });
+    } catch (e){
+      print(e);
+    }
+  }
+
+
+  Future saveProfile() async {
+    String userId = (await FirebaseAuth.instance.currentUser()).uid;
+    final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    usersReference.update({'height' : _heightController.text});
+    usersReference.update({'weight' : _weightController.text});
+    usersReference.update({'injury_history' : _historyController.text});
+    FocusScope.of(context).unfocus();
+    new TextEditingController().clear();
   }
 
 
   @override
   Widget build(BuildContext context) {
+
+    setTextControllers();
+
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
