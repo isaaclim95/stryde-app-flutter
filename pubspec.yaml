@@ -39,6 +39,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
 
+  # Graph Dependency
+  charts_flutter: ^0.9.0
+
   # Camera Dependency
   camera:
   # File Path Dependency

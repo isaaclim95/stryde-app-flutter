@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'graph.dart';
 
 String height, weight, age, sex;
 var _heightController = TextEditingController();
@@ -275,6 +276,14 @@ class ProfileState extends State<Profile> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: 30),
+                            Text("Weight Graph"),
+                            Container(
+                              width: 300,
+                              height: 200,
+                              child: PointsLineChart.withSampleData(),
+                            )
+
                           ]
                       )
                     ],
