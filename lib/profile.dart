@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 String height, weight, age, sex;
 var _heightController = TextEditingController();
@@ -53,6 +54,15 @@ class ProfileState extends State<Profile> {
     usersReference.update({'injury_history' : _historyController.text});
     FocusScope.of(context).unfocus();
     new TextEditingController().clear();
+    Fluttertoast.showToast(
+        msg: "Profile saved",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 
   @override
