@@ -1,11 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:strydeapp/services/behavior.dart';
+import 'package:strydeapp/services/firebase_service_model.dart';
 import 'welcome.dart';
+import 'connector.dart';
 
 Future<void> main() async {
+  // Needed to initialize Firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  if(userIsLoggedIn())  {
+    getAndSetGlobalData();
+  }
 
   runApp(
     MaterialApp(
@@ -16,8 +24,39 @@ Future<void> main() async {
         );
       },
         title: 'Stryde',
-        home: Welcome(),
+        home: LandingPage(),
       debugShowCheckedModeBanner: false,
     ),
   );
+}
+
+/// Returns true if the user is logged in
+bool userIsLoggedIn() {
+  if(FirebaseAuth.instance.currentUser != null) {
+    return true;
+  } else  {
+    return false;
+  }
+}
+
+void getAndSetGlobalData()  {
+  final AuthenticationService authenticationService = AuthenticationService();
+  authenticationService.getData();
+}
+
+/// Returns a Connector if user is logged in, otherwise returns welcome screen
+class LandingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: _decideMainPage(),
+    );
+  }
+  _decideMainPage() {
+    if (userIsLoggedIn()) {
+      return Connector(0);
+    } else {
+      return Welcome();
+    }
+  }
 }

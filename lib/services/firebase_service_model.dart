@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
+import 'package:strydeapp/services/globals.dart' as globals;
+
 class AuthenticationService {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -20,6 +22,21 @@ class AuthenticationService {
 
   Future getUid() async {
     return _firebaseAuth.currentUser.uid;
+  }
+
+  /// Gets user data from database using their uid, then
+  /// saves it to the global variables
+  Future getData() async {
+    String userId = _firebaseAuth.currentUser.uid;
+    final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    usersReference.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      globals.name = values['name'].toString();
+      globals.age = values['age'].toString();
+      globals.weight = values['weight'].toString();
+      globals.height = values['height'].toString();
+      globals.injury_history = values['injury_history'].toString();
+    });
   }
 
   Future signUpWithEmail({

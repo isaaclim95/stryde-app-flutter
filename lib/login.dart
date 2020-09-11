@@ -4,8 +4,7 @@ import 'package:strydeapp/welcome.dart';
 import 'connector.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'services/globals.dart' as globals;
-
+import 'services/firebase_service_model.dart';
 
 class Login extends StatefulWidget {
   Login({Key key, this.title}) : super(key: key);
@@ -17,6 +16,7 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final AuthenticationService authenticationService = AuthenticationService();
   var _emailController = TextEditingController();
   var _passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
@@ -43,20 +43,7 @@ class LoginState extends State<Login> {
     }
   }
 
-  /// Gets user data from database using their uid, then
-  /// saves it to the global variables
-  Future getData() async {
-    String userId = _firebaseAuth.currentUser.uid;
-    final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
-    usersReference.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      globals.name = values['name'].toString();
-      globals.age = values['age'].toString();
-      globals.weight = values['weight'].toString();
-      globals.height = values['height'].toString();
-      globals.injury_history = values['injury_history'].toString();
-    });
-  }
+
 
   /// Executes _signInWithEmailAndPassword and getData
   Future login() async {
@@ -64,7 +51,7 @@ class LoginState extends State<Login> {
       print('Attempting to login...');
       await _signInWithEmailAndPassword().then((value) {
         print('Successfully logged in');
-        getData();
+        authenticationService.getData();
         // Changing page
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => Connector(0)));

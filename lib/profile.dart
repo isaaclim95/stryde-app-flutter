@@ -30,7 +30,7 @@ class ProfileState extends State<Profile> {
     _nameController.text = globals.name;
     _ageController.text = globals.age;
     _historyController.text = globals.injury_history;
-    _bmiController.text = (double.parse(globals.weight) / ((double.parse(globals.height) * double.parse(globals.height)) / 100)).toStringAsFixed(3);
+//    _bmiController.text = (double.parse(globals.weight) / ((double.parse(globals.height) * double.parse(globals.height)) / 100)).toStringAsFixed(3);
   }
 
   /// Saves the information from the profile page into the database

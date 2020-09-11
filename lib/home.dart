@@ -53,7 +53,7 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    exercise = DailyExercise(nameText: "name", changeExerciseFunc: changeExercise);
+//    exercise = DailyExercise(nameText: "name", changeExerciseFunc: changeExercise);
     return Scaffold(
         body: GestureDetector(
           onTap: () {
@@ -71,7 +71,7 @@ class HomeState extends State<Home> {
               child: Column(
                 children: [
                   SizedBox(height: 30),
-                  exercise,
+//                  exercise,
                   SizedBox(height: 30),
                   DailyWeight(),
                   SizedBox(height: 500)
