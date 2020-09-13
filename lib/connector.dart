@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:statusbar/statusbar.dart';
+import 'package:strydeapp/services/constants.dart';
 
 import 'home.dart';
 import 'profile.dart';
@@ -43,33 +45,39 @@ class ConnectorState extends State<Connector> {
 
   @override
   Widget build(BuildContext context) {
+    StatusBar.color(kPrimaryColor);
     return Scaffold(
-      body: pages.elementAt(selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Profile'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center),
-            title: Text('Training'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.photo_camera),
-            title: Text('Record'),
-          ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Colors.white,
-        backgroundColor: Color(0xFF409ded),
-        onTap: onItemTapped,
+
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: kPrimaryColor
       ),
+      body: pages.elementAt(selectedIndex),
+//      bottomNavigationBar: BottomNavigationBar(
+//        type: BottomNavigationBarType.fixed,
+//        items: const <BottomNavigationBarItem>[
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.home),
+//            title: Text('Home'),
+//          ),
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.account_circle),
+//            title: Text('Profile'),
+//          ),
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.fitness_center),
+//            title: Text('Training'),
+//          ),
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.photo_camera),
+//            title: Text('Record'),
+//          ),
+//        ],
+//        currentIndex: selectedIndex,
+//        selectedItemColor: Colors.white,
+//        backgroundColor: Color(0xFF409ded),
+//        onTap: onItemTapped,
+//      ),
     );
   }
 

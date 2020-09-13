@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:strydeapp/services/constants.dart';
 import 'services/globals.dart' as globals;
 
-Widget exercise;
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -14,7 +14,6 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-
   var _nameController = TextEditingController();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -33,27 +32,58 @@ class HomeState extends State<Home> {
     }
   }
 
+  Widget button1(title) {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
+        child: Card(
+          elevation: 0.0,
+            color: Colors.transparent,
+
+          child: InkWell(
+            splashColor: Colors.blue.withAlpha(30),
+            borderRadius: new BorderRadius.circular(30.0),
+            onTap: () {
+              print(title + "tapped");
+              setState(() {
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.all(10.0),
+              width: 300,
+              height: 300,
+              child: Align(
+                alignment: Alignment(0, -0.9),
+                child: Text(
+                  title,
+                  style: GoogleFonts.raleway(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {
     setTextControllers().then((value){
       print('setTextControllers done.');
     });
-//    exercise = DailyExercise(nameText: _nameController.text, changeExerciseFunc: changeExercise);
     super.initState();
-  }
-
-  void changeExercise(){
-    setState(() {
-      print(exercise);
-      exercise = Text("TEST");
-      //print(exercise);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-//    exercise = DailyExercise(nameText: "name", changeExerciseFunc: changeExercise);
+  Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: GestureDetector(
           onTap: () {
@@ -65,18 +95,40 @@ class HomeState extends State<Home> {
             }
           },
           child: Container(
-//            color: Colors.red,
-            padding: EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0, bottom: 10.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 30),
-//                  exercise,
-                  SizedBox(height: 30),
-                  DailyWeight(),
-                  SizedBox(height: 500)
-                ]
-              )
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      height: size.height * 0.05,
+                      decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(36),
+                              bottomRight: Radius.circular(36)
+                          )
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.0,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 15.0,
+                      children: [
+                        button1("Profile"),
+                        button1("Exercises"),
+                        button1("Record walking"),
+                        button1("Profile"),
+                      ],
+                    ),
+                  ),
+                )
+              ]
             ),
           ),
         )
@@ -84,136 +136,4 @@ class HomeState extends State<Home> {
   }
 }
 
-class DailyExercise extends StatefulWidget {
-  final String nameText;
-  final Function changeExerciseFunc;
 
-  const DailyExercise({Key key, @required this.nameText, @required this.changeExerciseFunc}): super(key: key);
-
-  @override
-  _DailyExerciseState createState() {
-    return _DailyExerciseState();
-  }
-
-}
-
-class _DailyExerciseState extends State<DailyExercise>{
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "Hi " + globals.name + ",",
-          style: GoogleFonts.openSans(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
-          ),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          "How long have you exercised for today?",
-          style: GoogleFonts.openSans(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center ,
-          children: [
-            Container(
-              width: 100,
-              child: TextField(
-                decoration: new InputDecoration(
-                  contentPadding: EdgeInsets.all(-5),
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                    borderSide: new BorderSide(
-                    ),
-                  ),
-                  //fillColor: Colors.green
-                ),
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(width: 10),
-            RaisedButton(
-              child: Text('minutes'),
-//                        color: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              onPressed: () {
-                widget.changeExerciseFunc();
-              },
-            )
-
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class DailyWeight extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "What is your weight today?",
-          style: GoogleFonts.openSans(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center ,
-          children: [
-            Container(
-              width: 100,
-              child: TextField(
-                decoration: new InputDecoration(
-                  contentPadding: EdgeInsets.all(-5),
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                    borderSide: new BorderSide(
-                    ),
-                  ),
-                  //fillColor: Colors.green
-                ),
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(width: 10),
-            RaisedButton(
-              child: Text('weight'),
-//                        color: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              onPressed: () {
-
-              },
-            )
-
-          ],
-        ),
-      ],
-    );
-  }
-}
