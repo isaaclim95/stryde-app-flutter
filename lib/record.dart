@@ -179,7 +179,8 @@ class _CameraAppState extends State<CameraApp>
     try {
       await controller.initialize();
     } on CameraException catch (e) {
-      print("Error onNewCameraSelected");
+      print("Error onNewCameraSelected ");
+      print(e);
     }
 
     if (mounted) {
@@ -234,6 +235,7 @@ class _CameraAppState extends State<CameraApp>
       await controller.startVideoRecording(filePath);
     } on CameraException catch (e) {
       print("Error startVideoRecording");
+      print(e);
       return null;
     }
     return filePath;
@@ -289,6 +291,7 @@ class Record extends StatelessWidget {
       cameras = await availableCameras();
     } on CameraException catch (e) {
       print("Error starting camera");
+      print(e);
     }
   }
 

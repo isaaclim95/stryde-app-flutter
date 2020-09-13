@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'services/globals.dart' as globals;
 
 Widget exercise;
 

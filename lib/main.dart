@@ -5,7 +5,6 @@ import 'package:strydeapp/services/behavior.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
 import 'welcome.dart';
 import 'connector.dart';
-import 'services/constants.dart';
 
 Future<void> main() async {
   // Needed to initialize Firebase

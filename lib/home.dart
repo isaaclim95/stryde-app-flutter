@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/services/constants.dart';
-import 'services/globals.dart' as globals;
 
 
 class Home extends StatefulWidget {
@@ -32,19 +31,21 @@ class HomeState extends State<Home> {
     }
   }
 
+//  decoration: BoxDecoration(
+//  borderRadius: new BorderRadius.circular(30.0),
+//  ),
   Widget button1(title) {
     return Center(
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: new BorderRadius.circular(30.0),
-        ),
         child: Card(
-          elevation: 0.0,
-            color: Colors.transparent,
-
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 10.0,
+          color: Colors.orange[300],
           child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
-            borderRadius: new BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(15.0),
             onTap: () {
               print(title + "tapped");
               setState(() {
@@ -59,9 +60,9 @@ class HomeState extends State<Home> {
                 child: Text(
                   title,
                   style: GoogleFonts.raleway(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -72,6 +73,9 @@ class HomeState extends State<Home> {
       ),
     );
   }
+
+
+
 
   @override
   void initState() {
