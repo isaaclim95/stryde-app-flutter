@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/profile.dart';
 import 'package:strydeapp/record.dart';
 import 'package:strydeapp/services/constants.dart';
+import 'services/globals.dart' as globals;
 import 'exercises.dart';
 
 
@@ -20,6 +21,7 @@ class HomeState extends State<Home> {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+
   Future setTextControllers() async  {
     print("setTextControllers()");
     try {
@@ -30,6 +32,14 @@ class HomeState extends State<Home> {
         _nameController.text = values['name'].toString();
       });
     } catch (e){
+      print(e);
+    }
+  }
+
+  Future setWeightData() async {
+    try {
+      String uid = _firebaseAuth.currentUser.uid;
+    } catch (e) {
       print(e);
     }
   }

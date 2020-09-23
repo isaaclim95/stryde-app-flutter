@@ -11,13 +11,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  AuthenticationService as = AuthenticationService();
+//  as.signOut();
+
   if(userIsLoggedIn())  {
     getAndSetGlobalData();
   }
 
   runApp(
     MaterialApp(
-
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: MyBehavior(),
@@ -33,8 +35,10 @@ Future<void> main() async {
 /// Returns true if the user is logged in
 bool userIsLoggedIn() {
   if(FirebaseAuth.instance.currentUser != null) {
+    print("User is logged in");
     return true;
   } else  {
+    print("User is NOT logged in");
     return false;
   }
 }

@@ -78,8 +78,9 @@ class Firstrun extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(10.0)),
             onPressed: () {
+              // Changing page
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Connector(1)));
+                  MaterialPageRoute(builder: (context) => Connector(0)));
             },
             textColor: Colors.white,
             padding: const EdgeInsets.all(0.0),

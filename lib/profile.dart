@@ -70,6 +70,8 @@ class ProfileState extends State<Profile> {
     );
   }
 
+  
+
   @override
   void initState() {
     setTextControllers();

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:strydeapp/services/globals.dart' as globals;
@@ -53,7 +54,8 @@ class AuthenticationService {
       return e.message;
     }
   }
-  Future putSignupData({
+
+  Future<void> putSignupData({
     @required String email,
     @required String password,
     @required String name,
@@ -65,7 +67,7 @@ class AuthenticationService {
   }) async  {
     try {
       String userId = _firebaseAuth.currentUser.uid;
-      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
       usersReference.update({'email' : email});
       usersReference.update({'password' : password});
       usersReference.update({'name' : name});
@@ -74,12 +76,24 @@ class AuthenticationService {
       usersReference.update({'height' : height});
       usersReference.update({'weight' : weight});
       usersReference.update({'injury_history' : injury_history});
+      usersReference.update({'weight_data': ''});
+      usersReference = FirebaseDatabase.instance.reference().child("users").child(userId).child("weight_data").push();
+      usersReference.update({'date': ServerValue.timestamp});
+      usersReference.update({'weight': weight});
     } catch (e) {
 
     }
   }
 
-
+  Future<void> putWeight(weight) async {
+    try {
+      String userId = _firebaseAuth.currentUser.uid;
+      var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId).child("weight_data").push();
+      usersReference.update({'date': ServerValue.timestamp});
+      usersReference.update({'weight': weight});
+    } catch (e) {
+    }
+  }
 
   Future<String> signOut()  async {
     await _firebaseAuth.signOut();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dropdowns.dart';
+import 'main.dart';
 import 'services/firebase_service_model.dart';
 import 'firstrun.dart';
 
@@ -32,6 +33,7 @@ class RegisterState extends State<Register> {
       _authenticationService.putSignupData(email: email, password: password, name: name,
           age: age, sex: sex, height: height, weight: weight, injury_history: injury_history);
     });
+    getAndSetGlobalData();
   }
 
   @override
