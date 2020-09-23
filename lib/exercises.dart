@@ -1,146 +1,87 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'services/globals.dart' as globals;
 
-Widget exercise;
-
-//void changeExercise(){
-//  setState(() {
-//    print(exercise);
-//    exercise = Text("TEST");
-//    //print(exercise);
-//  });
-//}
-
-class DailyExercise extends StatefulWidget {
-  final String nameText;
-  final Function changeExerciseFunc;
-
-  const DailyExercise({Key key, @required this.nameText, @required this.changeExerciseFunc}): super(key: key);
-
+class Exercises extends StatefulWidget {
   @override
-  _DailyExerciseState createState() {
-    return _DailyExerciseState();
-  }
-
+  ExercisesState createState() => ExercisesState();
 }
 
-class _DailyExerciseState extends State<DailyExercise>{
+class ExercisesState extends State<Exercises> {
+
+  List<String> _listImages = [];
+  List<String> _listNames = [];
+
+  Future _initImages() async {
+    final manifestContent = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+
+    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+
+    final imagePaths = manifestMap.keys
+        .where((String key) => key.contains('images/'))
+        .where((String key) => key.contains('.gif'))
+        .toList();
+
+    setState(() {
+      _listImages = imagePaths;
+    });
+  }
+
+  @override
+  void initState() {
+    _initImages().then((value){
+      print('_initImages() done.');
+      for(var name in _listImages)  {
+        name = name.replaceAll("images/", "");
+        name = name.replaceAll(".gif", "");
+        name = name.replaceAll("_", " ");
+        name = '${name[0].toUpperCase()}${name.substring(1)}';
+        _listNames.add(name);
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "Hi " + globals.name + ",",
-          style: GoogleFonts.openSans(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
+    return Material(
+      child: Column(
+        children: [
+          // margin
+          const SizedBox(height: 60),
+          // Heading
+          Text(
+            "Exercises",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFF409ded),
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          "How long have you exercised for today?",
-          style: GoogleFonts.openSans(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center ,
-          children: [
-            Container(
-              width: 100,
-              child: TextField(
-                decoration: new InputDecoration(
-                  contentPadding: EdgeInsets.all(-5),
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                    borderSide: new BorderSide(
-                    ),
-                  ),
-                  //fillColor: Colors.green
-                ),
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
+          SizedBox(height: 10),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                padding: const EdgeInsets.all(0),
+                itemCount: _listImages.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20, ),
+                itemBuilder: (_, index) {
+                  return Container(
+                      child: Column(
+                        children: [
+                          Text(_listNames[index]),
+                          Image.asset(_listImages[index], fit: BoxFit.cover, width: 200, height: 150),
+                        ],
+                      )
+                  );
+                },
               ),
             ),
-            SizedBox(width: 10),
-            RaisedButton(
-              child: Text('minutes'),
-//                        color: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              onPressed: () {
-                widget.changeExerciseFunc();
-              },
-            ),
-          ],
-        ),
-      ],
+          )
+        ]
+      )
     );
   }
-}
 
-class DailyWeight extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "What is your weight today?",
-          style: GoogleFonts.openSans(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center ,
-          children: [
-            Container(
-              width: 100,
-              child: TextField(
-                decoration: new InputDecoration(
-                  contentPadding: EdgeInsets.all(-5),
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                    borderSide: new BorderSide(
-                    ),
-                  ),
-                  //fillColor: Colors.green
-                ),
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(width: 10),
-            RaisedButton(
-              child: Text('weight'),
-//                        color: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              onPressed: () {
-
-              },
-            )
-
-          ],
-        ),
-      ],
-    );
-  }
 }

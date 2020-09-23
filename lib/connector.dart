@@ -4,7 +4,7 @@ import 'package:strydeapp/services/constants.dart';
 
 import 'home.dart';
 import 'profile.dart';
-import 'training.dart';
+import 'exercises.dart';
 import 'record.dart';
 
 
@@ -30,7 +30,7 @@ class ConnectorState extends State<Connector> {
   final List<Widget> pages = <Widget>[
     Home(),
     Profile(),
-    Training(),
+    Exercises(),
     Record(),
   ];
 

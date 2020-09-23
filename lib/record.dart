@@ -2,9 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:strydeapp/services/firebase_service_model.dart';
 import 'package:video_player/video_player.dart';
+import 'package:image_picker/image_picker.dart';
 
 List<CameraDescription> cameras = [];
 
@@ -20,6 +24,7 @@ class _CameraAppState extends State<CameraApp>
   CameraController controller;
   int camera = 0;
   String videoPath;
+  String timeStamp;
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
   int duration = 5;
@@ -53,6 +58,33 @@ class _CameraAppState extends State<CameraApp>
       }
     }
   }*/
+
+  void uploadVideo(file, filename) async {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    String uid = _firebaseAuth.currentUser.uid;
+    StorageReference ref = FirebaseStorage.instance.ref().child(uid).child(timeStamp);
+    StorageUploadTask uploadTask = ref.putFile(file, StorageMetadata(contentType: 'video/mp4'));
+
+    if (uploadTask.isSuccessful || uploadTask.isComplete) {
+      final String url = await ref.getDownloadURL();
+      print("The download URL is " + url);
+    } else if (uploadTask.isInProgress) {
+
+      uploadTask.events.listen((event) {
+        double percentage = 100 *(event.snapshot.bytesTransferred.toDouble()
+            / event.snapshot.totalByteCount.toDouble());
+        print("THe percentage " + percentage.toString());
+      });
+
+      StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
+      var downloadUrl1 = await storageTaskSnapshot.ref.getDownloadURL();
+
+      print("Download URL " + downloadUrl1.toString());
+
+    } else{
+      // Failed/ catch
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +238,9 @@ class _CameraAppState extends State<CameraApp>
               //////////////////////////////////////////////////////////////////
               // Firebase code here using videoPath as directory
               if (mounted) setState(() {});
-              // print('Video recorded to: $videoPath');
+               print('Video recorded to: $videoPath');
+               var file = File(videoPath);
+               uploadVideo(file, timeStamp);
             });
           }
         });
@@ -223,7 +257,8 @@ class _CameraAppState extends State<CameraApp>
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Stryde_Videos';
     await Directory(dirPath).create(recursive: true);
-    final String filePath = '$dirPath/${timestamp()}.mp4';
+    timeStamp = timestamp();
+    final String filePath = '$dirPath/$timeStamp.mp4';
 
     if (controller.value.isRecordingVideo) {
       // A recording is already started, do nothing.

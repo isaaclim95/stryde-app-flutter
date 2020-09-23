@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:strydeapp/profile.dart';
+import 'package:strydeapp/record.dart';
 import 'package:strydeapp/services/constants.dart';
+import 'exercises.dart';
 
 
 class Home extends StatefulWidget {
@@ -34,7 +37,7 @@ class HomeState extends State<Home> {
 //  decoration: BoxDecoration(
 //  borderRadius: new BorderRadius.circular(30.0),
 //  ),
-  Widget button1(title) {
+  Widget button1(title, route) {
     return Center(
       child: Container(
         child: Card(
@@ -49,6 +52,10 @@ class HomeState extends State<Home> {
             onTap: () {
               print(title + "tapped");
               setState(() {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => route),
+                );
               });
             },
             child: Container(
@@ -124,10 +131,9 @@ class HomeState extends State<Home> {
                       crossAxisSpacing: 10.0,
                       mainAxisSpacing: 15.0,
                       children: [
-                        button1("Profile"),
-                        button1("Exercises"),
-                        button1("Record walking"),
-                        button1("Profile"),
+                        button1("Profile", Profile()),
+                        button1("Exercises", Exercises()),
+                        button1("Record walking", Record()),
                       ],
                     ),
                   ),
