@@ -31,7 +31,7 @@ class AuthenticationService {
   /// saves it to the global variables
   Future getData() async {
     String userId = _firebaseAuth.currentUser.uid;
-    final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
     usersReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       globals.name = values['name'].toString();
@@ -40,6 +40,13 @@ class AuthenticationService {
       globals.height = values['height'].toString();
       globals.injury_history = values['injury_history'].toString();
     });
+
+    usersReference = FirebaseDatabase.instance.reference().child("users").child(userId).child("weight_data");
+    usersReference.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key, value) {globals.weight_data.add(value["weight"]);});
+    });
+
   }
 
   Future signUpWithEmail({

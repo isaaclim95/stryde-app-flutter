@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:strydeapp/services/firebase_service_model.dart';
 import 'graph.dart';
 import 'services/globals.dart' as globals;
 
@@ -70,10 +71,13 @@ class ProfileState extends State<Profile> {
     );
   }
 
-  
+
 
   @override
   void initState() {
+    // HERE IS WEIGHT DATA
+    print(globals.weight_data);
+
     setTextControllers();
     super.initState();
   }

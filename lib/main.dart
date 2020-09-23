@@ -12,7 +12,6 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   AuthenticationService as = AuthenticationService();
-//  as.signOut();
 
   if(userIsLoggedIn())  {
     getAndSetGlobalData();
