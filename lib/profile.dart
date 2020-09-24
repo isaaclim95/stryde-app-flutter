@@ -292,7 +292,7 @@ class ProfileState extends State<Profile> {
                             Container(
                               width: 300,
                               height: 200,
-                              child: PointsLineChart.withSampleData(),
+                              child: PointsLineChart.weightGraph(),
                             )
 
                           ]

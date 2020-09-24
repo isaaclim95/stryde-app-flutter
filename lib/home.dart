@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/profile.dart';
 import 'package:strydeapp/record.dart';
 import 'package:strydeapp/services/constants.dart';
+import 'package:strydeapp/services/firebase_service_model.dart';
 import 'services/globals.dart' as globals;
 import 'exercises.dart';
-
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -21,17 +21,17 @@ class HomeState extends State<Home> {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-
-  Future setTextControllers() async  {
+  Future setTextControllers() async {
     print("setTextControllers()");
     try {
       String userId = _firebaseAuth.currentUser.uid;
-      final usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      final usersReference =
+          FirebaseDatabase.instance.reference().child("users").child(userId);
       usersReference.once().then((DataSnapshot snapshot) {
         Map<dynamic, dynamic> values = snapshot.value;
         _nameController.text = values['name'].toString();
       });
-    } catch (e){
+    } catch (e) {
       print(e);
     }
   }
@@ -79,8 +79,7 @@ class HomeState extends State<Home> {
                   style: GoogleFonts.raleway(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black
-                  ),
+                      color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -91,12 +90,152 @@ class HomeState extends State<Home> {
     );
   }
 
+  /////////////////////////////////////////
+  var exerciseText = Text("How long have you exercised for today?",
+      style:
+      GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
+      textAlign: TextAlign.center);
 
+  Widget dailyExercise() {
+    var _exerciseController = TextEditingController();
 
+    return Column(
+      children: [
+        Text(
+          "Hi " + /*globals.name +*/ ",",
+          style:
+              GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center,
+        ),
+        exerciseText,
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 100,
+              child: TextField(
+                decoration: new InputDecoration(
+                  contentPadding: EdgeInsets.all(-5),
+                  fillColor: Colors.white,
+                  border: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(30.0),
+                    borderSide: new BorderSide(),
+                  ),
+                  //fillColor: Colors.green
+                ),
+                controller: _exerciseController,
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(width: 10),
+            RaisedButton(
+              child: Text('minutes'),
+//                        color: Colors.blueAccent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
+              onPressed: () {
+                setState(() {
+                  String response;
+                  if(int.parse(globals.age) < 18){
+                    if(int.parse(_exerciseController.text) < 60){
+                      response = "Not enough exercise\nAccording to Australia's Department of Health you should be doing 60 minutes or more exercise daily";
+                    }else{
+                      response = "Great job\nYou've met your daily recommended exercise";
+                    }
+                  }else if(int.parse(globals.age) < 65){
+                    if(int.parse(_exerciseController.text) < 10){
+                      response = "Not enough exercise\nAccording to Australia's Department of Health you should be doing 10 minutes or more exercise daily";
+                    }else{
+                      response = "Great job\nYou've met your daily recommended exercise";
+                    }
+                  }else{
+                    if(int.parse(_exerciseController.text) < 30){
+                      response = "Not enough exercise\nAccording to Australia's Department of Health you should be doing 30 minutes or more exercise daily";
+                    }else{
+                      response = "Great job\nYou've met your daily recommended exercise";
+                    }
+                  }
+                  exerciseText = Text(response,
+                      style:
+                      GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center);
+                });
+                //widget.changeExerciseFunc();
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+  /////////////////////////////////////////
+  var weightText = Text("What is your current weight?",
+      style:
+      GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
+      textAlign: TextAlign.center);
+  AuthenticationService as = AuthenticationService();
+
+  Widget dailyWeight() {
+    var _weightController = TextEditingController();
+
+    return Column(
+      children: [
+        weightText,
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 100,
+              child: TextField(
+                decoration: new InputDecoration(
+                  contentPadding: EdgeInsets.all(-5),
+                  fillColor: Colors.white,
+                  border: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(30.0),
+                    borderSide: new BorderSide(),
+                  ),
+                  //fillColor: Colors.green
+                ),
+                controller: _weightController,
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(width: 10),
+            RaisedButton(
+              child: Text('kilograms'),
+//                        color: Colors.blueAccent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
+              onPressed: () {
+                setState(() {
+                  as.putWeight(double.parse(_weightController.text));
+                });
+                //widget.changeExerciseFunc();
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  /////////////////////////////////////////
 
   @override
   void initState() {
-    setTextControllers().then((value){
+    setTextControllers().then((value) {
       print('setTextControllers done.');
     });
     super.initState();
@@ -104,56 +243,51 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-  Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: GestureDetector(
-          onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-            if (!currentFocus.hasPrimaryFocus) {
-              currentFocus.unfocus();
-            } else  {
-              print("hi");
-            }
-          },
-          child: Container(
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      height: size.height * 0.05,
-                      decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(36),
-                              bottomRight: Radius.circular(36)
-                          )
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.0,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 15.0,
-                      children: [
-                        button1("Profile", Profile()),
-                        button1("Exercises", Exercises()),
-                        button1("Record walking", Record()),
-                      ],
-                    ),
-                  ),
-                )
-              ]
-            ),
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        } else {
+          print("hi");
+        }
+      },
+      child: Container(
+        child: Column(children: [
+          Stack(
+            children: [
+              Container(
+                height: size.height * 0.05,
+                decoration: BoxDecoration(
+                    color: kPrimaryColor,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(36),
+                        bottomRight: Radius.circular(36))),
+              ),
+            ],
           ),
-        )
-    );
+          dailyExercise(),
+          dailyWeight(),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+              child: GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: 1.0,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 15.0,
+                children: [
+                  button1("Profile", Profile()),
+                  button1("Exercises", Exercises()),
+                  button1("Record walking", Record()),
+                ],
+              ),
+            ),
+          )
+        ]),
+      ),
+    ));
   }
 }
-
-

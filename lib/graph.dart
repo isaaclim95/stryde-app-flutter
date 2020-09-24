@@ -1,6 +1,7 @@
 /// Line chart example
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'services/globals.dart' as globals;
 
 class PointsLineChart extends StatelessWidget {
   final List<charts.Series> seriesList;
@@ -8,11 +9,21 @@ class PointsLineChart extends StatelessWidget {
 
   PointsLineChart(this.seriesList, {this.animate});
 
-  /// Creates a [LineChart] with sample data and no transition.
-  factory PointsLineChart.withSampleData() {
+  factory PointsLineChart.weightGraph() {
+    List<WeightData> data = new List();
+    for(int i = 0; i < globals.weight_data.length; i++){
+      data.add(new WeightData(i+1, globals.weight_data[i].toDouble()));
+    }
+
+    var graph = [new charts.Series<WeightData, int>(
+      id: 'Weights',
+      colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+      domainFn: (WeightData w, _) => w.day,
+      measureFn: (WeightData w, _) => w.weight,
+      data: data,
+    )];
     return new PointsLineChart(
-      _createSampleData(),
-      // Disable animations for image tests.
+      graph,
       animate: false,
     );
   }
@@ -28,42 +39,12 @@ class PointsLineChart extends StatelessWidget {
             new charts.BasicNumericTickProviderSpec(zeroBound: false)),
     );
   }
-
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
-    final data = [
-      new LinearSales(1, 81),
-      new LinearSales(2, 80.3),
-      new LinearSales(3, 82),
-      new LinearSales(4, 81.7),
-      new LinearSales(5, 81),
-      new LinearSales(6, 80),
-      new LinearSales(7, 82.2),
-      new LinearSales(8, 83),
-      new LinearSales(9, 81.8),
-      new LinearSales(10, 80.3),
-      new LinearSales(11, 82),
-      new LinearSales(12, 83),
-      new LinearSales(13, 81.9),
-      new LinearSales(14, 80),
-    ];
-
-    return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
-  }
 }
 
 /// Sample linear data type.
-class LinearSales {
-  final int year;
-  final double sales;
+class WeightData {
+  final int day;
+  final double weight;
 
-  LinearSales(this.year, this.sales);
+  WeightData(this.day, this.weight);
 }
