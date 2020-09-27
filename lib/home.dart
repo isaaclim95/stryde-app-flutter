@@ -100,6 +100,8 @@ class HomeState extends State<Home> {
 
   Widget dailyExercise() {
     var _exerciseController = TextEditingController();
+
+    // Refresh state until name is found
     if(globals.name == null)  {
       print("null");
       setState(() {
@@ -266,7 +268,6 @@ class HomeState extends State<Home> {
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
         } else {
-          print("hi");
         }
       },
       child: Container(
