@@ -9,6 +9,8 @@ import 'package:strydeapp/services/firebase_service_model.dart';
 import 'services/globals.dart' as globals;
 import 'exercises.dart';
 
+String name = "";
+
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
   final String title;
@@ -98,11 +100,23 @@ class HomeState extends State<Home> {
 
   Widget dailyExercise() {
     var _exerciseController = TextEditingController();
+    if(globals.name == null)  {
+      print("null");
+      setState(() {
+
+      });
+    } else  {
+      print("not null");
+      setState(() {
+        name = globals.name;
+      });
+    }
+
 
     return Column(
       children: [
         Text(
-          "Hi " + /*globals.name +*/ ",",
+          "Hi " + name,
           style:
               GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,

@@ -14,7 +14,7 @@ Future<void> main() async {
   AuthenticationService as = AuthenticationService();
 
   if(userIsLoggedIn())  {
-    getAndSetGlobalData();
+    await getAndSetGlobalData().then((value) => null);
   }
 
   runApp(
@@ -42,7 +42,7 @@ bool userIsLoggedIn() {
   }
 }
 
-void getAndSetGlobalData()  {
+Future<void> getAndSetGlobalData() async {
   final AuthenticationService authenticationService = AuthenticationService();
   authenticationService.getData();
 }
