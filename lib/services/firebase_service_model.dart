@@ -44,7 +44,9 @@ class AuthenticationService {
     usersReference = FirebaseDatabase.instance.reference().child("users").child(userId).child("weight_data");
     usersReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, value) {globals.weight_data.add(value["weight"]);});
+      values.forEach((key, value) {
+        globals.weight_data.add(value["weight"]);
+      });
     });
 
   }

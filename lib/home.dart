@@ -221,6 +221,7 @@ class HomeState extends State<Home> {
               onPressed: () {
                 setState(() {
                   as.putWeight(double.parse(_weightController.text));
+                  globals.weight = _weightController.text;
                 });
                 //widget.changeExerciseFunc();
               },
