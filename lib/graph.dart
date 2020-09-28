@@ -11,8 +11,9 @@ class PointsLineChart extends StatelessWidget {
 
   factory PointsLineChart.weightGraph() {
     List<WeightData> data = new List();
+
     for(int i = 0; i < globals.weight_data.length; i++){
-      data.add(new WeightData(i+1, globals.weight_data[i].toDouble()));
+      data.add(new WeightData(i+1, globals.weight_data[i]['weight']));
     }
 
     var graph = [new charts.Series<WeightData, int>(

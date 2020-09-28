@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
 import 'graph.dart';
 import 'services/globals.dart' as globals;
+import 'dart:math';
 
 String height, weight, age, sex;
 var _heightController = TextEditingController();
@@ -31,7 +32,8 @@ class ProfileState extends State<Profile> {
     _nameController.text = globals.name;
     _ageController.text = globals.age;
     _historyController.text = globals.injury_history;
-//    _bmiController.text = (double.parse(globals.weight) / ((double.parse(globals.height) * double.parse(globals.height)) / 100)).toStringAsFixed(3);
+
+    _bmiController.text = (double.parse(globals.weight) / pow(double.parse(globals.height) / 100, 2)).toStringAsFixed(3);
   }
 
   /// Saves the information from the profile page into the database
@@ -54,6 +56,9 @@ class ProfileState extends State<Profile> {
     globals.weight = _weightController.text;
     globals.age = _ageController.text;
     globals.injury_history = _historyController.text;
+
+    // Update bmi
+    _bmiController.text = (double.parse(globals.weight) / pow(double.parse(globals.height) / 100, 2)).toStringAsFixed(3);
 
     // Un-focusing all fields
     FocusScope.of(context).unfocus();

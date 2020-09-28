@@ -45,8 +45,12 @@ class AuthenticationService {
     usersReference.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key, value) {
-        globals.weight_data.add(value["weight"]);
+        globals.weight_data.add({
+          'weight': value["weight"].toDouble(),
+          'date': DateTime.fromMillisecondsSinceEpoch(value["date"])
+        });
       });
+      globals.weight_data.sort((a, b) => a['date'].compareTo(b['date']));
     });
 
   }

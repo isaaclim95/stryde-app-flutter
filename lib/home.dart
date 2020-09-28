@@ -238,6 +238,10 @@ class HomeState extends State<Home> {
                 setState(() {
                   as.putWeight(double.parse(_weightController.text));
                   globals.weight = _weightController.text;
+                  globals.weight_data.add({
+                    'weight': double.parse(_weightController.text),
+                    'date': DateTime.now()
+                  });
                 });
                 //widget.changeExerciseFunc();
               },
