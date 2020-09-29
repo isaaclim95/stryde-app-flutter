@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:strydeapp/services/constants.dart';
 
 class Exercises extends StatefulWidget {
   @override
@@ -49,15 +51,15 @@ class ExercisesState extends State<Exercises> {
           // margin
           const SizedBox(height: 60),
           // Heading
-          Text(
+        Text(
             "Exercises",
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xFF409ded),
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+            style: GoogleFonts.openSans(
+                color: kPrimaryColor,
+                fontSize: 32,
+                fontWeight: FontWeight.w700
+            )
+        ),
           SizedBox(height: 10),
           Flexible(
             child: Padding(

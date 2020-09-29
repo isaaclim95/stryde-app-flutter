@@ -49,7 +49,7 @@ class HomeState extends State<Home> {
 //  decoration: BoxDecoration(
 //  borderRadius: new BorderRadius.circular(30.0),
 //  ),
-  Widget button1(title, route) {
+  Widget button1(title, route, icon) {
     return Center(
       child: Container(
         child: Card(
@@ -57,9 +57,10 @@ class HomeState extends State<Home> {
             borderRadius: BorderRadius.circular(20.0),
           ),
           elevation: 10.0,
-          color: Colors.orange[300],
+          //color: Color(0xffe0e0e0),
+          color: kPrimaryColor,
           child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
+            splashColor: kPrimaryColor.withAlpha(30),
             borderRadius: BorderRadius.circular(15.0),
             onTap: () {
               print(title + "tapped");
@@ -74,17 +75,26 @@ class HomeState extends State<Home> {
               padding: EdgeInsets.all(10.0),
               width: 300,
               height: 300,
-              child: Align(
-                alignment: Alignment(0, -0.9),
-                child: Text(
-                  title,
-                  style: GoogleFonts.raleway(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black),
-                  textAlign: TextAlign.center,
+              child: Column(children: [
+                Align(
+                    alignment: Alignment(0, -0.9),
+                    child: Text(
+                      title,
+                      style: GoogleFonts.raleway(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
+                      textAlign: TextAlign.center,
+                    )
                 ),
-              ),
+                Container(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Icon(
+                      icon,
+                      size: 75,
+                    )
+                ),
+              ]),
             ),
           ),
         ),
@@ -94,26 +104,22 @@ class HomeState extends State<Home> {
 
   /////////////////////////////////////////
   var exerciseText = Text("How long have you exercised for today?",
-      style:
-      GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
+      style: GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
       textAlign: TextAlign.center);
 
   Widget dailyExercise() {
     var _exerciseController = TextEditingController();
 
     // Refresh state until name is found
-    if(globals.name == null)  {
+    if (globals.name == null) {
       print("null");
-      setState(() {
-
-      });
-    } else  {
+      setState(() {});
+    } else {
       print("not null");
       setState(() {
         name = globals.name;
       });
     }
-
 
     return Column(
       children: [
@@ -158,31 +164,36 @@ class HomeState extends State<Home> {
               onPressed: () {
                 setState(() {
                   String response;
-                  if(int.parse(globals.age) < 18){
-                    if(int.parse(_exerciseController.text) < 60){
-                      response = "Not enough exercise\nAccording to Australia's Department of Health you should be doing 60 minutes or more exercise daily";
-                    }else{
-                      response = "Great job\nYou've met your daily recommended exercise";
+                  if (int.parse(globals.age) < 18) {
+                    if (int.parse(_exerciseController.text) < 60) {
+                      response =
+                          "Not enough exercise\nAccording to Australia's Department of Health you should be doing 60 minutes or more exercise daily";
+                    } else {
+                      response =
+                          "Great job\nYou've met your daily recommended exercise";
                     }
-                  }else if(int.parse(globals.age) < 65){
-                    if(int.parse(_exerciseController.text) < 10){
-                      response = "Not enough exercise\nAccording to Australia's Department of Health you should be doing 10 minutes or more exercise daily";
-                    }else{
-                      response = "Great job\nYou've met your daily recommended exercise";
+                  } else if (int.parse(globals.age) < 65) {
+                    if (int.parse(_exerciseController.text) < 10) {
+                      response =
+                          "Not enough exercise\nAccording to Australia's Department of Health you should be doing 10 minutes or more exercise daily";
+                    } else {
+                      response =
+                          "Great job\nYou've met your daily recommended exercise";
                     }
-                  }else{
-                    if(int.parse(_exerciseController.text) < 30){
-                      response = "Not enough exercise\nAccording to Australia's Department of Health you should be doing 30 minutes or more exercise daily";
-                    }else{
-                      response = "Great job\nYou've met your daily recommended exercise";
+                  } else {
+                    if (int.parse(_exerciseController.text) < 30) {
+                      response =
+                          "Not enough exercise\nAccording to Australia's Department of Health you should be doing 30 minutes or more exercise daily";
+                    } else {
+                      response =
+                          "Great job\nYou've met your daily recommended exercise";
                     }
                   }
                   exerciseText = Text(response,
-                      style:
-                      GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.openSans(
+                          fontSize: 16, fontWeight: FontWeight.w600),
                       textAlign: TextAlign.center);
                 });
-                //widget.changeExerciseFunc();
               },
             ),
           ],
@@ -190,10 +201,10 @@ class HomeState extends State<Home> {
       ],
     );
   }
+
   /////////////////////////////////////////
   var weightText = Text("What is your current weight?",
-      style:
-      GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
+      style: GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
       textAlign: TextAlign.center);
   AuthenticationService as = AuthenticationService();
 
@@ -243,7 +254,6 @@ class HomeState extends State<Home> {
                     'date': DateTime.now()
                   });
                 });
-                //widget.changeExerciseFunc();
               },
             ),
           ],
@@ -271,8 +281,7 @@ class HomeState extends State<Home> {
         FocusScopeNode currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
-        } else {
-        }
+        } else {}
       },
       child: Container(
         child: Column(children: [
@@ -299,9 +308,10 @@ class HomeState extends State<Home> {
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 15.0,
                 children: [
-                  button1("Profile", Profile()),
-                  button1("Exercises", Exercises()),
-                  button1("Record walking", Record()),
+                  button1("Profile", Profile(), Icons.account_circle),
+                  button1("Exercises", Exercises(), Icons.fitness_center),
+                  button1("Record walking", Record(), Icons.photo_camera),
+                  button1("Sign out", Record(), Icons.exit_to_app),
                 ],
               ),
             ),
