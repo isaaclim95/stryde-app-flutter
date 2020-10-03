@@ -46,11 +46,11 @@ class ConnectorState extends State<Connector> {
   Widget build(BuildContext context) {
     StatusBar.color(kPrimaryColor);
     return Scaffold(
-
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: kPrimaryColor
-      ),
+      //
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: kPrimaryColor
+      // ),
       body: pages.elementAt(selectedIndex),
 //      bottomNavigationBar: BottomNavigationBar(
 //        type: BottomNavigationBarType.fixed,

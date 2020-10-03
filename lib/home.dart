@@ -108,8 +108,6 @@ class HomeState extends State<Home> {
   Widget dailyExercise() {
     var _exerciseController = TextEditingController();
 
-
-
     return Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
@@ -278,6 +276,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     // Refresh state until name is found
+    // dirty fix
     if (globals.name == null) {
       print("null");
       setState(() {});
@@ -297,19 +296,10 @@ class HomeState extends State<Home> {
         } else {}
       },
       child: Container(
-        child: Column(children: [
-          /*Stack(
-            children: [
-              Container(
-                height: size.height * 0.05,
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(36),
-                        bottomRight: Radius.circular(36))),
-              ),
-            ],
-          ),*/
+        child: Column(
+
+          children: [
+          SizedBox(height:40),
           Text(
             "Hi " + name,
             style:

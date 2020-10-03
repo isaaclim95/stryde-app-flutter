@@ -90,12 +90,7 @@ class ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    final AuthenticationService authenticationService = AuthenticationService();
-    authenticationService.getData().then((value) {
-      setState(() {
-      });
-      print("hi");
-    });
+   
     setTextControllers();
     super.initState();
   }
