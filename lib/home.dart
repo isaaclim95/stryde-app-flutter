@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/profile.dart';
 import 'package:strydeapp/record.dart';
 import 'package:strydeapp/services/constants.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
+import 'package:strydeapp/welcome.dart';
 import 'services/globals.dart' as globals;
 import 'exercises.dart';
 
@@ -99,6 +101,67 @@ class HomeState extends State<Home> {
       ),
     );
   }
+  Widget button2(title, icon) {
+    return Center(
+      child: Container(
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 10.0,
+          //color: Color(0xffe0e0e0),
+          color: kPrimaryColor,
+          child: InkWell(
+            splashColor: kPrimaryColor.withAlpha(30),
+            borderRadius: BorderRadius.circular(15.0),
+            onTap: () {
+              print(title + "tapped");
+              setState(() {
+                var as = AuthenticationService();
+                as.signOut();
+                // Showing toast after completion
+                Fluttertoast.showToast(
+                    msg: "Signed out",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.grey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Welcome()),
+                );
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.all(10.0),
+              width: 300,
+              height: 300,
+              child: Column(children: [
+                Align(
+                    alignment: Alignment(0, -0.9),
+                    child: Text(
+                      title,
+                      style: GoogleFonts.raleway(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
+                      textAlign: TextAlign.center,
+                    )),
+                Container(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Icon(
+                      icon,
+                      size: 75,
+                    )),
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   /////////////////////////////////////////
   var exerciseText = Text("How long have you exercised for today?",
@@ -107,8 +170,6 @@ class HomeState extends State<Home> {
 
   Widget dailyExercise() {
     var _exerciseController = TextEditingController();
-
-
 
     return Card(
         shape: RoundedRectangleBorder(
@@ -278,6 +339,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     // Refresh state until name is found
+    // dirty fix
     if (globals.name == null) {
       print("null");
       setState(() {});
@@ -297,19 +359,10 @@ class HomeState extends State<Home> {
         } else {}
       },
       child: Container(
-        child: Column(children: [
-          /*Stack(
-            children: [
-              Container(
-                height: size.height * 0.05,
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(36),
-                        bottomRight: Radius.circular(36))),
-              ),
-            ],
-          ),*/
+        child: Column(
+
+          children: [
+          SizedBox(height:40),
           Text(
             "Hi " + name,
             style:
@@ -330,7 +383,7 @@ class HomeState extends State<Home> {
                   button1("Profile", Profile(), Icons.account_circle),
                   button1("Exercises", Exercises(), Icons.fitness_center),
                   button1("Record walking", Record(), Icons.photo_camera),
-                  button1("Sign out", Record(), Icons.exit_to_app),
+                  button2("Sign out", Icons.exit_to_app),
                 ],
               ),
             ),
