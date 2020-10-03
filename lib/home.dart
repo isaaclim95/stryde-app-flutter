@@ -85,15 +85,13 @@ class HomeState extends State<Home> {
                           fontWeight: FontWeight.w700,
                           color: Colors.black),
                       textAlign: TextAlign.center,
-                    )
-                ),
+                    )),
                 Container(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Icon(
                       icon,
                       size: 75,
-                    )
-                ),
+                    )),
               ]),
             ),
           ),
@@ -121,85 +119,89 @@ class HomeState extends State<Home> {
       });
     }
 
-    return Column(
-      children: [
-        Text(
-          "Hi " + name,
-          style:
-              GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center,
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
         ),
-        exerciseText,
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 100,
-              child: TextField(
-                decoration: new InputDecoration(
-                  contentPadding: EdgeInsets.all(-5),
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                    borderSide: new BorderSide(),
-                  ),
-                  //fillColor: Colors.green
-                ),
-                controller: _exerciseController,
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(width: 10),
-            RaisedButton(
-              child: Text('minutes'),
-//                        color: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              onPressed: () {
-                setState(() {
-                  String response;
-                  if (int.parse(globals.age) < 18) {
-                    if (int.parse(_exerciseController.text) < 60) {
-                      response =
-                          "Not enough exercise\nAccording to Australia's Department of Health you should be doing 60 minutes or more exercise daily";
-                    } else {
-                      response =
-                          "Great job\nYou've met your daily recommended exercise";
-                    }
-                  } else if (int.parse(globals.age) < 65) {
-                    if (int.parse(_exerciseController.text) < 10) {
-                      response =
-                          "Not enough exercise\nAccording to Australia's Department of Health you should be doing 10 minutes or more exercise daily";
-                    } else {
-                      response =
-                          "Great job\nYou've met your daily recommended exercise";
-                    }
-                  } else {
-                    if (int.parse(_exerciseController.text) < 30) {
-                      response =
-                          "Not enough exercise\nAccording to Australia's Department of Health you should be doing 30 minutes or more exercise daily";
-                    } else {
-                      response =
-                          "Great job\nYou've met your daily recommended exercise";
-                    }
-                  }
-                  exerciseText = Text(response,
+        elevation: 10.0,
+        //color: Color(0xffe0e0e0),
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          width: 350,
+          child: Column(
+            children: [
+              exerciseText,
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 100,
+                    child: TextField(
+                      decoration: new InputDecoration(
+                        contentPadding: EdgeInsets.all(-5),
+                        fillColor: Colors.white,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                          borderSide: new BorderSide(),
+                        ),
+                        //fillColor: Colors.green
+                      ),
+                      controller: _exerciseController,
                       style: GoogleFonts.openSans(
-                          fontSize: 16, fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center);
-                });
-              },
-            ),
-          ],
-        ),
-      ],
-    );
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  RaisedButton(
+                    child: Text('minutes'),
+                    //                        color: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                    onPressed: () {
+                      setState(() {
+                        String response;
+                        if (int.parse(globals.age) < 18) {
+                          if (int.parse(_exerciseController.text) < 60) {
+                            response =
+                                "Not enough exercise\nAccording to Australia's Department of Health you should be doing 60 minutes or more exercise daily";
+                          } else {
+                            response =
+                                "Great job\nYou've met your daily recommended exercise";
+                          }
+                        } else if (int.parse(globals.age) < 65) {
+                          if (int.parse(_exerciseController.text) < 10) {
+                            response =
+                                "Not enough exercise\nAccording to Australia's Department of Health you should be doing 10 minutes or more exercise daily";
+                          } else {
+                            response =
+                                "Great job\nYou've met your daily recommended exercise";
+                          }
+                        } else {
+                          if (int.parse(_exerciseController.text) < 30) {
+                            response =
+                                "Not enough exercise\nAccording to Australia's Department of Health you should be doing 30 minutes or more exercise daily";
+                          } else {
+                            response =
+                                "Great job\nYou've met your daily recommended exercise";
+                          }
+                        }
+                        exerciseText = Text(response,
+                            style: GoogleFonts.openSans(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 
   /////////////////////////////////////////
@@ -211,8 +213,17 @@ class HomeState extends State<Home> {
   Widget dailyWeight() {
     var _weightController = TextEditingController();
 
-    return Column(
-      children: [
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        elevation: 10.0,
+        //color: Color(0xffe0e0e0),
+        child: Container(
+        padding: EdgeInsets.all(10.0),
+    width: 350,
+    child: Column(
+    children: [
         weightText,
         SizedBox(height: 10),
         Row(
@@ -259,7 +270,7 @@ class HomeState extends State<Home> {
           ],
         ),
       ],
-    );
+    )));
   }
 
   /////////////////////////////////////////
@@ -285,7 +296,7 @@ class HomeState extends State<Home> {
       },
       child: Container(
         child: Column(children: [
-          Stack(
+          /*Stack(
             children: [
               Container(
                 height: size.height * 0.05,
@@ -296,6 +307,12 @@ class HomeState extends State<Home> {
                         bottomRight: Radius.circular(36))),
               ),
             ],
+          ),*/
+          Text(
+            "Hi " + name,
+            style:
+                GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
+            textAlign: TextAlign.center,
           ),
           dailyExercise(),
           dailyWeight(),
