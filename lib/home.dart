@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:strydeapp/profile.dart';
 import 'package:strydeapp/record.dart';
 import 'package:strydeapp/services/constants.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
+import 'package:strydeapp/welcome.dart';
 import 'services/globals.dart' as globals;
 import 'exercises.dart';
 
@@ -68,6 +70,67 @@ class HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => route),
+                );
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.all(10.0),
+              width: 300,
+              height: 300,
+              child: Column(children: [
+                Align(
+                    alignment: Alignment(0, -0.9),
+                    child: Text(
+                      title,
+                      style: GoogleFonts.raleway(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
+                      textAlign: TextAlign.center,
+                    )),
+                Container(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Icon(
+                      icon,
+                      size: 75,
+                    )),
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget button2(title, icon) {
+    return Center(
+      child: Container(
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 10.0,
+          //color: Color(0xffe0e0e0),
+          color: kPrimaryColor,
+          child: InkWell(
+            splashColor: kPrimaryColor.withAlpha(30),
+            borderRadius: BorderRadius.circular(15.0),
+            onTap: () {
+              print(title + "tapped");
+              setState(() {
+                var as = AuthenticationService();
+                as.signOut();
+                // Showing toast after completion
+                Fluttertoast.showToast(
+                    msg: "Signed out",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.grey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Welcome()),
                 );
               });
             },
@@ -320,7 +383,7 @@ class HomeState extends State<Home> {
                   button1("Profile", Profile(), Icons.account_circle),
                   button1("Exercises", Exercises(), Icons.fitness_center),
                   button1("Record walking", Record(), Icons.photo_camera),
-                  button1("Sign out", Record(), Icons.exit_to_app),
+                  button2("Sign out", Icons.exit_to_app),
                 ],
               ),
             ),
