@@ -29,7 +29,8 @@ class AuthenticationService {
 
   /// Gets user data from database using their uid, then
   /// saves it to the global variables
-  Future getData() async {
+  Future<void> getData() async {
+    globals.weight_data = [];
     String userId = _firebaseAuth.currentUser.uid;
     var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
     usersReference.once().then((DataSnapshot snapshot) {

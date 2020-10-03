@@ -10,12 +10,18 @@ import 'services/globals.dart' as globals;
 import 'dart:math';
 
 String height, weight, age, sex;
+bool dataSet = false;
 var _heightController = TextEditingController();
 var _weightController = TextEditingController();
 var _nameController = TextEditingController();
 var _historyController = TextEditingController();
 var _bmiController = TextEditingController();
 var _ageController = TextEditingController();
+
+Future<void> getAndSetGlobalData() async {
+  final AuthenticationService authenticationService = AuthenticationService();
+  authenticationService.getData();
+}
 
 class Profile extends StatefulWidget {
   @override
@@ -80,8 +86,14 @@ class ProfileState extends State<Profile> {
         fontSize: 16.0);
   }
 
+  Future<void> getAndSetGlobalData() async {
+    final AuthenticationService authenticationService = AuthenticationService();
+    await authenticationService.getData();
+  }
+
   @override
   void initState() {
+
     // HERE IS WEIGHT DATA
     print(globals.weight_data);
 
@@ -91,6 +103,15 @@ class ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    if(!dataSet)  {
+      getAndSetGlobalData().then((value) {
+        setState(() {
+          print(globals.weight_data);
+          dataSet = true;
+        });
+      });
+    }
+
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -208,7 +229,7 @@ class ProfileState extends State<Profile> {
                                   IntrinsicWidth(
                                     child: TextField(
                                         decoration: null,
-                                        enabled: true,
+                                        enabled: false,
                                         controller: _weightController),
                                   ),
                                 ],
