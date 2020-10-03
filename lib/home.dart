@@ -108,16 +108,7 @@ class HomeState extends State<Home> {
   Widget dailyExercise() {
     var _exerciseController = TextEditingController();
 
-    // Refresh state until name is found
-    if (globals.name == null) {
-      print("null");
-      setState(() {});
-    } else {
-      print("not null");
-      setState(() {
-        name = globals.name;
-      });
-    }
+
 
     return Card(
         shape: RoundedRectangleBorder(
@@ -285,6 +276,17 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Refresh state until name is found
+    if (globals.name == null) {
+      print("null");
+      setState(() {});
+    } else {
+      print("not null");
+      setState(() {
+        name = globals.name;
+      });
+    }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: GestureDetector(
