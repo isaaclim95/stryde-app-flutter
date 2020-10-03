@@ -29,7 +29,7 @@ class AuthenticationService {
 
   /// Gets user data from database using their uid, then
   /// saves it to the global variables
-  Future<void> getData() async {
+  Future<bool> getData() async {
     globals.weight_data = [];
     String userId = _firebaseAuth.currentUser.uid;
     var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
@@ -53,7 +53,7 @@ class AuthenticationService {
       });
       globals.weight_data.sort((a, b) => a['date'].compareTo(b['date']));
     });
-
+    return true;
   }
 
   Future signUpWithEmail({
