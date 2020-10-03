@@ -103,7 +103,6 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,

@@ -102,7 +102,9 @@ class AuthenticationService {
   Future<void> putWeight(weight) async {
     try {
       String userId = _firebaseAuth.currentUser.uid;
-      var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId).child("weight_data").push();
+      var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+      usersReference.update({'weight': weight});
+      usersReference = FirebaseDatabase.instance.reference().child("users").child(userId).child("weight_data").push();
       usersReference.update({'date': ServerValue.timestamp});
       usersReference.update({'weight': weight});
     } catch (e) {
