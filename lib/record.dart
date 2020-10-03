@@ -27,11 +27,12 @@ class _CameraAppState extends State<CameraApp>
   String timeStamp;
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
-  int duration = 5;
+  int duration = 3;
   bool playback = false;
 
   // Look at this -----------------------------------------------
-  /*@override
+  /*
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -222,30 +223,42 @@ class _CameraAppState extends State<CameraApp>
 
   void onVideoRecordButtonPressed() {
     Timer timer;
+    Timer test;
     playback = false;
     if(!controller.value.isRecordingVideo){
-      duration = 5;
-      startVideoRecording().then((String filePath) {
-        if (mounted) setState(() {});
-        //if (filePath != null) showInSnackBar('Saving video to $filePath');
-      });
+      duration = 3;
       timer = Timer.periodic(Duration(seconds: 1), (timer){
         setState(() {
           duration--;
           if(duration == 0){
             timer.cancel();
-            stopVideoRecording().then((_) {
-              //////////////////////////////////////////////////////////////////
-              // Firebase code here using videoPath as directory
+            startVideoRecording().then((String filePath) {
               if (mounted) setState(() {});
-               print('Video recorded to: $videoPath');
-               var file = File(videoPath);
-               uploadVideo(file, timeStamp);
+              //if (filePath != null) showInSnackBar('Saving video to $filePath');
+            });
+            duration = 5;
+            test = Timer.periodic(Duration(seconds: 1), (test){
+              setState(() {
+                duration--;
+                if(duration == 0){
+                  test.cancel();
+                  stopVideoRecording().then((_) {
+                    //////////////////////////////////////////////////////////////////
+                    // Firebase code here using videoPath as directory
+                    if (mounted) setState(() {});
+                    print('Video recorded to: $videoPath');
+                    var file = File(videoPath);
+                    uploadVideo(file, timeStamp);
+                  });
+                  duration = 3;
+                }
+              });
+
             });
           }
         });
-
       });
+
     }else{
       print("onVideoRecordButtonPressed Error");
     }
