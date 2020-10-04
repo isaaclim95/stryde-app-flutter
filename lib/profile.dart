@@ -87,17 +87,14 @@ class ProfileState extends State<Profile> {
         fontSize: 16.0);
   }
 
-
   @override
   void initState() {
-
     setTextControllers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -128,7 +125,7 @@ class ProfileState extends State<Profile> {
                                   Text("Profile",
                                       style: GoogleFonts.openSans(
                                           color: kPrimaryColor,
-                                          fontSize: 32,
+                                          fontSize: 30,
                                           fontWeight: FontWeight.w700)),
                                   Spacer(),
                                   Container(
@@ -138,9 +135,15 @@ class ProfileState extends State<Profile> {
                                       onPressed: saveProfile,
                                       elevation: 2.0,
                                       fillColor: kPrimaryColor,
-                                      padding: EdgeInsets.all(15.0),
                                       shape: CircleBorder(),
-                                      child: Text("Save"),
+                                      child: Text(
+                                        "Save",
+                                        style: GoogleFonts.openSans(
+                                          color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   )
                                 ],
@@ -288,7 +291,12 @@ class ProfileState extends State<Profile> {
                       ),
                     ),
                     SizedBox(height: 30),
-                    Text("Weight Graph"),
+                    Text("Weight Graph",
+                      style: GoogleFonts.openSans(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
                     Container(
                       width: 300,
                       height: 200,

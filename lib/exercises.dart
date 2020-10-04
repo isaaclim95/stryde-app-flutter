@@ -56,7 +56,7 @@ class ExercisesState extends State<Exercises> {
             textAlign: TextAlign.center,
             style: GoogleFonts.openSans(
                 color: kPrimaryColor,
-                fontSize: 32,
+                fontSize: 30,
                 fontWeight: FontWeight.w700
             )
         ),
@@ -72,7 +72,11 @@ class ExercisesState extends State<Exercises> {
                   return Container(
                       child: Column(
                         children: [
-                          Text(_listNames[index]),
+                          Text(_listNames[index],
+                        style: GoogleFonts.openSans(
+                            fontWeight: FontWeight.w600),
+                        textAlign: TextAlign.center,
+                      ),
                           Image.asset(_listImages[index], fit: BoxFit.cover, width: 200, height: 150),
                         ],
                       )

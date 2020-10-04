@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:statusbar/statusbar.dart';
 import 'package:strydeapp/profile.dart';
 import 'package:strydeapp/record.dart';
 import 'package:strydeapp/services/constants.dart';
@@ -10,7 +11,6 @@ import 'package:strydeapp/services/firebase_service_model.dart';
 import 'package:strydeapp/welcome.dart';
 import 'services/globals.dart' as globals;
 import 'exercises.dart';
-
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -82,7 +82,7 @@ class HomeState extends State<Home> {
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Icon(
                       icon,
-                      size: 50,
+                      size: 60,
                     )),
               ]),
             ),
@@ -91,6 +91,7 @@ class HomeState extends State<Home> {
       ),
     );
   }
+
   Widget button2(title, icon) {
     return Center(
       child: Container(
@@ -143,7 +144,7 @@ class HomeState extends State<Home> {
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Icon(
                       icon,
-                      size: 75,
+                      size: 60,
                     )),
               ]),
             ),
@@ -201,7 +202,7 @@ class HomeState extends State<Home> {
                   ),
                   SizedBox(width: 10),
                   RaisedButton(
-                    child: Text('minutes'),
+                    child: Text('Minutes'),
                     //                        color: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -264,67 +265,67 @@ class HomeState extends State<Home> {
         elevation: 10.0,
         //color: Color(0xffe0e0e0),
         child: Container(
-        padding: EdgeInsets.all(10.0),
-    width: 350,
-    child: Column(
-    children: [
-        weightText,
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 100,
-              child: TextField(
-                decoration: new InputDecoration(
-                  contentPadding: EdgeInsets.all(-5),
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                    borderSide: new BorderSide(),
-                  ),
-                  //fillColor: Colors.green
-                ),
-                controller: _weightController,
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(width: 10),
-            RaisedButton(
-              child: Text('kilograms'),
+            padding: EdgeInsets.all(10.0),
+            width: 350,
+            child: Column(
+              children: [
+                weightText,
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 100,
+                      child: TextField(
+                        decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.all(-5),
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(30.0),
+                            borderSide: new BorderSide(),
+                          ),
+                          //fillColor: Colors.green
+                        ),
+                        controller: _weightController,
+                        style: GoogleFonts.openSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    RaisedButton(
+                      child: Text('Kilograms'),
 //                        color: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              onPressed: () {
-
-                setState(() {
-                  as.putWeight(double.parse(_weightController.text));
-                  globals.weight = _weightController.text;
-                  globals.weight_data.add({
-                    'weight': double.parse(_weightController.text),
-                    'date': DateTime.now()
-                  });
-                  // Showing toast after completion
-                  Fluttertoast.showToast(
-                      msg: "Weight saved.",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.grey,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                });
-              },
-            ),
-          ],
-        ),
-      ],
-    )));
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(16.0))),
+                      onPressed: () {
+                        setState(() {
+                          as.putWeight(double.parse(_weightController.text));
+                          globals.weight = _weightController.text;
+                          globals.weight_data.add({
+                            'weight': double.parse(_weightController.text),
+                            'date': DateTime.now()
+                          });
+                          // Showing toast after completion
+                          Fluttertoast.showToast(
+                              msg: "Weight saved.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.grey,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            )));
   }
 
   @override
@@ -335,13 +336,8 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
+    StatusBar.color(kPrimaryColor);
     return Scaffold(
-        appBar: AppBar(
-            elevation: 0,
-            backgroundColor: kPrimaryColor
-        ),
-
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
@@ -350,33 +346,34 @@ class HomeState extends State<Home> {
             FocusScope.of(context).requestFocus(new FocusNode());
           },
           child: Container(
-            child: Column(
-              children: [
+            child: Column(children: [
+              SizedBox(height: 65),
               Text(
                 "Hi " + globals.name,
-                style:
-                    GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
+                style: GoogleFonts.openSans(
+                    fontSize: 24, fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
+              SizedBox(height: 5),
               dailyExercise(),
+              SizedBox(height: 5),
               dailyWeight(),
               Column(
                 children: <Widget>[
                   GridView(
-                    padding: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(20),
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 0,
                       crossAxisSpacing: 0,
-                      childAspectRatio: 3/2.3,
-
+                      childAspectRatio: 1,
                     ),
                     children: [
                       button1("Profile", Profile(), Icons.account_circle),
                       button1("Exercises", Exercises(), Icons.fitness_center),
-                      button1("Record walking", Record(), Icons.photo_camera),
+                      button1("Record", Record(), Icons.photo_camera),
                       button2("Sign out", Icons.exit_to_app),
                     ],
                   )

@@ -42,7 +42,7 @@ class Welcome extends StatelessWidget {
                 width: 150,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                child: const Text('Login', style: TextStyle(fontSize: 18)),
+                child: const Text('Login', style: TextStyle(fontSize: 20)),
               ),
             ),
 
@@ -66,7 +66,7 @@ class Welcome extends StatelessWidget {
                 width: 150,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                child: const Text('Sign-Up', style: TextStyle(fontSize: 18)),
+                child: const Text('Sign-Up', style: TextStyle(fontSize: 20)),
               ),
             ),
 

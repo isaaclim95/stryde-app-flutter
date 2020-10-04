@@ -16,7 +16,7 @@ class Firstrun extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xFF409ded),
-              fontSize: 48,
+              fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
           ),

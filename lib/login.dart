@@ -67,7 +67,7 @@ class LoginState extends State<Login> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF409ded),
-                  fontSize: 26,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
