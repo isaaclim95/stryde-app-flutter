@@ -6,9 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:strydeapp/services/firebase_service_model.dart';
 import 'package:video_player/video_player.dart';
-import 'package:image_picker/image_picker.dart';
 
 List<CameraDescription> cameras = [];
 
@@ -297,7 +295,7 @@ class _CameraAppState extends State<CameraApp>
     try {
       await controller.stopVideoRecording();
     } on CameraException catch (e) {
-      print("Error stopVideoRecording");
+      print("Error stopVideoRecording" + e.toString());
       return null;
     }
 

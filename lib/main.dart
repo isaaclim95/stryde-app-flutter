@@ -11,8 +11,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  AuthenticationService as = AuthenticationService();
-
   if(userIsLoggedIn())  {
     await getAndSetGlobalData().then((value) => null);
   }

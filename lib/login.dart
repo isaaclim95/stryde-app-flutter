@@ -20,8 +20,6 @@ class LoginState extends State<Login> {
   var _passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
 
-  bool _success;
-  String _userEmail;
 
   /// Signs in with email and password from text controllers
   Future _signInWithEmailAndPassword() async {
@@ -32,17 +30,12 @@ class LoginState extends State<Login> {
 
     if (user != null) {
       setState(() {
-        _success = true;
-        _userEmail = user.email;
       });
     } else {
       setState(() {
-        _success = false;
       });
     }
   }
-
-
 
   /// Executes _signInWithEmailAndPassword and getData
   Future login() async {

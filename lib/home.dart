@@ -42,17 +42,6 @@ class HomeState extends State<Home> {
     }
   }
 
-  Future setWeightData() async {
-    try {
-      String uid = _firebaseAuth.currentUser.uid;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-//  decoration: BoxDecoration(
-//  borderRadius: new BorderRadius.circular(30.0),
-//  ),
   Widget button1(title, route, icon) {
     return Center(
       child: Container(
@@ -364,6 +353,7 @@ class HomeState extends State<Home> {
       });
     }
     return Scaffold(
+      backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -403,20 +393,6 @@ class HomeState extends State<Home> {
                     ],
                   )
                 ],
-
-                  // GridView.count(
-                  //   shrinkWrap: true,
-                  //   crossAxisCount: 2,
-                  //   childAspectRatio: 1.0,
-                  //   crossAxisSpacing: 0.0,
-                  //   mainAxisSpacing: 0.0,
-                  //   children: [
-                  //     button1("Profile", Profile(), Icons.account_circle),
-                  //     button1("Exercises", Exercises(), Icons.fitness_center),
-                  //     button1("Record walking", Record(), Icons.photo_camera),
-                  //     button2("Sign out", Icons.exit_to_app),
-                  //   ],
-                  // ),
               )
             ]),
           ),
