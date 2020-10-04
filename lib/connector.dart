@@ -46,6 +46,7 @@ class ConnectorState extends State<Connector> {
   Widget build(BuildContext context) {
     StatusBar.color(kPrimaryColor);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       //
       // appBar: AppBar(
       //   elevation: 0,

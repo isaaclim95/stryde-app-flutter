@@ -351,6 +351,7 @@ class HomeState extends State<Home> {
     }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
