@@ -75,8 +75,8 @@ class HomeState extends State<Home> {
             },
             child: Container(
               padding: EdgeInsets.all(10.0),
-              width: 300,
-              height: 300,
+              width: 170,
+              height: 170,
               child: Column(children: [
                 Align(
                     alignment: Alignment(0, -0.9),
@@ -136,8 +136,8 @@ class HomeState extends State<Home> {
             },
             child: Container(
               padding: EdgeInsets.all(10.0),
-              width: 300,
-              height: 300,
+              width: 170,
+              height: 170,
               child: Column(children: [
                 Align(
                     alignment: Alignment(0, -0.9),
@@ -371,22 +371,37 @@ class HomeState extends State<Home> {
           ),
           dailyExercise(),
           dailyWeight(),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 1.0,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 15.0,
+          Container(
+            child:
+              GridView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 0,
+                  crossAxisSpacing: 0,
+                  childAspectRatio: 3/2.5,
+                ),
                 children: [
                   button1("Profile", Profile(), Icons.account_circle),
                   button1("Exercises", Exercises(), Icons.fitness_center),
                   button1("Record walking", Record(), Icons.photo_camera),
                   button2("Sign out", Icons.exit_to_app),
                 ],
-              ),
-            ),
+              )
+              // GridView.count(
+              //   shrinkWrap: true,
+              //   crossAxisCount: 2,
+              //   childAspectRatio: 1.0,
+              //   crossAxisSpacing: 0.0,
+              //   mainAxisSpacing: 0.0,
+              //   children: [
+              //     button1("Profile", Profile(), Icons.account_circle),
+              //     button1("Exercises", Exercises(), Icons.fitness_center),
+              //     button1("Record walking", Record(), Icons.photo_camera),
+              //     button2("Sign out", Icons.exit_to_app),
+              //   ],
+              // ),
           )
         ]),
       ),
