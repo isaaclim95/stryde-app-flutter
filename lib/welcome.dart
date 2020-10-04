@@ -47,7 +47,7 @@ class Welcome extends StatelessWidget {
             ),
 
             // Margin
-            const SizedBox(height: 30),
+            const SizedBox(height: 25),
             // Register Button
             RaisedButton(
               shape: RoundedRectangleBorder(

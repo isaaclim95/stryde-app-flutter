@@ -8,7 +8,7 @@ class HeightDropdown extends StatefulWidget {
   @override
   HeightDropdownState createState() => HeightDropdownState();
 
-  String get getHeight{
+  String get getHeight {
     return height;
   }
 }
@@ -22,7 +22,7 @@ class HeightDropdownState extends State<HeightDropdown> {
     }
 
     return Container(
-        width: 100,
+        width: 130,
         decoration: BoxDecoration(
           borderRadius: new BorderRadius.circular(10.0),
           color: Color(0xFF409ded),
@@ -38,7 +38,7 @@ class HeightDropdownState extends State<HeightDropdown> {
                       isExpanded: true,
                       value: height,
                       hint: Text(
-                        "Height(cm)",
+                        "Height (cm)",
                         style: TextStyle(color: Colors.white),
                       ),
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -48,7 +48,7 @@ class HeightDropdownState extends State<HeightDropdown> {
                         });
                       },
                       items:
-                      items.map<DropdownMenuItem<String>>((String value) {
+                          items.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -64,7 +64,7 @@ class WeightDropdown extends StatefulWidget {
   @override
   WeightDropdownState createState() => WeightDropdownState();
 
-  String get getWeight{
+  String get getWeight {
     return weight;
   }
 }
@@ -78,7 +78,7 @@ class WeightDropdownState extends State<WeightDropdown> {
     }
 
     return Container(
-        width: 100,
+        width: 130,
         decoration: BoxDecoration(
           borderRadius: new BorderRadius.circular(10.0),
           color: Color(0xFF409ded),
@@ -94,7 +94,7 @@ class WeightDropdownState extends State<WeightDropdown> {
                       isExpanded: true,
                       value: weight,
                       hint: Text(
-                        "Weight(kg)",
+                        "Weight (kg)",
                         style: TextStyle(color: Colors.white),
                       ),
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -104,7 +104,7 @@ class WeightDropdownState extends State<WeightDropdown> {
                         });
                       },
                       items:
-                      items.map<DropdownMenuItem<String>>((String value) {
+                          items.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -120,7 +120,7 @@ class GenderDropdown extends StatefulWidget {
   @override
   GenderDropdownState createState() => GenderDropdownState();
 
-  String get getSex{
+  String get getSex {
     return sex;
   }
 }
@@ -129,7 +129,7 @@ class GenderDropdownState extends State<GenderDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 85,
+        width: 100,
         decoration: BoxDecoration(
           borderRadius: new BorderRadius.circular(10.0),
           color: Color(0xFF409ded),
@@ -171,7 +171,7 @@ class AgeDropdown extends StatefulWidget {
   @override
   AgeDropdownState createState() => AgeDropdownState();
 
-  String get getAge{
+  String get getAge {
     return age;
   }
 }
@@ -185,7 +185,7 @@ class AgeDropdownState extends State<AgeDropdown> {
     }
 
     return Container(
-        width: 85,
+        width: 100,
         decoration: BoxDecoration(
           borderRadius: new BorderRadius.circular(10.0),
           color: Color(0xFF409ded),
@@ -211,7 +211,7 @@ class AgeDropdownState extends State<AgeDropdown> {
                         });
                       },
                       items:
-                      items.map<DropdownMenuItem<String>>((String value) {
+                          items.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),

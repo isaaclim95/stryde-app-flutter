@@ -65,11 +65,11 @@ class RegisterState extends State<Register> {
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(height: 30),
+                    SizedBox(height: 40),
                     Align(
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.center,
                       child: Text(
                         "Sign-Up",
                         style: TextStyle(
@@ -79,7 +79,19 @@ class RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 30),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        fillColor: Color(0xFFf0f0f0),
+                        filled: true,
+                        contentPadding:
+                        const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                        border: OutlineInputBorder(),
+                        labelText: 'Name',
+                      ),
+                    ),
+                    SizedBox(height:25),
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -91,7 +103,7 @@ class RegisterState extends State<Register> {
                         labelText: 'Email',
                       ),
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:25),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
@@ -104,19 +116,7 @@ class RegisterState extends State<Register> {
                         labelText: 'Password',
                       ),
                     ),
-                    SizedBox(height:20),
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        fillColor: Color(0xFFf0f0f0),
-                        filled: true,
-                        contentPadding:
-                        const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        border: OutlineInputBorder(),
-                        labelText: 'Name',
-                      ),
-                    ),
-                    SizedBox(height:20),
+                    SizedBox(height:30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -124,7 +124,7 @@ class RegisterState extends State<Register> {
                         GenderDropdown()
                       ],
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:25),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -132,7 +132,7 @@ class RegisterState extends State<Register> {
                         WeightDropdown()
                       ],
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:30),
                     Container(
 //                      width: 300,
                       child: TextFormField(
@@ -149,6 +149,7 @@ class RegisterState extends State<Register> {
                         ),
                       ),
                     ),
+                    SizedBox(height:30),
                     RaisedButton(
                       onPressed: ()   {
                         print(heightDropdown.getHeight);

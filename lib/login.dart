@@ -95,7 +95,7 @@ class LoginState extends State<Login> {
                             ),
                           ),
                           // Password TextField
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 25),
                           TextFormField(
                             controller: _passwordController,
                             obscureText: true,
