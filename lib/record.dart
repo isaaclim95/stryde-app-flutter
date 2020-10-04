@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -17,8 +18,7 @@ class CameraApp extends StatefulWidget {
   }
 }
 
-class _CameraAppState extends State<CameraApp>
-    with WidgetsBindingObserver {
+class _CameraAppState extends State<CameraApp> with WidgetsBindingObserver {
   CameraController controller;
   int camera = 0;
   String videoPath;
@@ -28,8 +28,6 @@ class _CameraAppState extends State<CameraApp>
   int duration = 3;
   bool playback = false;
 
-  // Look at this -----------------------------------------------
-  /*
   @override
   void initState() {
     super.initState();
@@ -42,36 +40,22 @@ class _CameraAppState extends State<CameraApp>
     super.dispose();
   }
 
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    // App state changed before we got the chance to initialize.
-    if (controller == null || !controller.value.isInitialized) {
-      return;
-    }
-    if (state == AppLifecycleState.inactive) {
-      controller?.dispose();
-    } else if (state == AppLifecycleState.resumed) {
-      if (controller != null) {
-        //onNewCameraSelected(controller.description);
-      }
-    }
-  }*/
-
   void uploadVideo(file, filename) async {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     String uid = _firebaseAuth.currentUser.uid;
-    StorageReference ref = FirebaseStorage.instance.ref().child(uid).child(timeStamp);
-    StorageUploadTask uploadTask = ref.putFile(file, StorageMetadata(contentType: 'video/mp4'));
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(uid).child(timeStamp);
+    StorageUploadTask uploadTask =
+        ref.putFile(file, StorageMetadata(contentType: 'video/mp4'));
 
     if (uploadTask.isSuccessful || uploadTask.isComplete) {
       final String url = await ref.getDownloadURL();
       print("The download URL is " + url);
     } else if (uploadTask.isInProgress) {
-
       uploadTask.events.listen((event) {
-        double percentage = 100 *(event.snapshot.bytesTransferred.toDouble()
-            / event.snapshot.totalByteCount.toDouble());
+        double percentage = 100 *
+            (event.snapshot.bytesTransferred.toDouble() /
+                event.snapshot.totalByteCount.toDouble());
         print("THe percentage " + percentage.toString());
       });
 
@@ -79,8 +63,7 @@ class _CameraAppState extends State<CameraApp>
       var downloadUrl1 = await storageTaskSnapshot.ref.getDownloadURL();
 
       print("Download URL " + downloadUrl1.toString());
-
-    } else{
+    } else {
       // Failed/ catch
     }
   }
@@ -127,15 +110,14 @@ class _CameraAppState extends State<CameraApp>
         ),
       );
     } else {
-      if(!playback){
+      if (!playback) {
         return AspectRatio(
           aspectRatio: controller.value.aspectRatio,
           child: CameraPreview(controller),
         );
-      }else{
+      } else {
         return AspectRatio(
-            aspectRatio:
-            videoController.value.size != null
+            aspectRatio: videoController.value.size != null
                 ? videoController.value.aspectRatio
                 : 1.0,
             child: VideoPlayer(videoController));
@@ -143,7 +125,7 @@ class _CameraAppState extends State<CameraApp>
     }
   }
 
-  void changePlayback(){
+  void changePlayback() {
     setState(() {
       print(videoController);
       playback ? playback = false : playback = true;
@@ -159,7 +141,8 @@ class _CameraAppState extends State<CameraApp>
         IconButton(
           icon: const Icon(Icons.cached),
           color: Colors.blue,
-          onPressed: playback || videoController != null ? changePlayback : null,
+          onPressed:
+              playback || videoController != null ? changePlayback : null,
         ),
         IconButton(
           icon: const Icon(Icons.switch_camera),
@@ -169,10 +152,10 @@ class _CameraAppState extends State<CameraApp>
         IconButton(
           icon: const Icon(Icons.videocam),
           color: Colors.blue,
-          onPressed: controller != null &&
-              controller.value.isInitialized && !playback
-              ? onVideoRecordButtonPressed
-              : null,
+          onPressed:
+              controller != null && controller.value.isInitialized && !playback
+                  ? onVideoRecordButtonPressed
+                  : null,
         ),
         Text(duration.toString())
       ],
@@ -186,18 +169,15 @@ class _CameraAppState extends State<CameraApp>
     int cameraNumbers = 0;
     cameras.forEach((element) => cameraNumbers++);
     camera++;
-    if(camera >= cameraNumbers){
+    if (camera >= cameraNumbers) {
       camera = 0;
     }
     cameraDescription = cameras[camera];
     if (controller != null) {
       await controller.dispose();
     }
-    controller = CameraController(
-        cameraDescription,
-        ResolutionPreset.medium,
-        enableAudio: false
-    );
+    controller = CameraController(cameraDescription, ResolutionPreset.medium,
+        enableAudio: false);
 
     // If the controller is updated then update the UI.
     controller.addListener(() {
@@ -221,25 +201,41 @@ class _CameraAppState extends State<CameraApp>
 
   void onVideoRecordButtonPressed() {
     Timer timer;
-    Timer test;
+    Timer timerTwo;
     playback = false;
-    if(!controller.value.isRecordingVideo){
+    if (!controller.value.isRecordingVideo) {
       duration = 3;
-      timer = Timer.periodic(Duration(seconds: 1), (timer){
+      Fluttertoast.showToast(
+          msg: "Recording in 3 seconds",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      timer = Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
           duration--;
-          if(duration == 0){
+          if (duration == -1) {
             timer.cancel();
             startVideoRecording().then((String filePath) {
               if (mounted) setState(() {});
               //if (filePath != null) showInSnackBar('Saving video to $filePath');
             });
             duration = 5;
-            test = Timer.periodic(Duration(seconds: 1), (test){
+            Fluttertoast.showToast(
+                msg: "Recording",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.grey,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            timerTwo = Timer.periodic(Duration(seconds: 1), (timerTwo) {
               setState(() {
                 duration--;
-                if(duration == 0){
-                  test.cancel();
+                if (duration == -1) {
+                  timerTwo.cancel();
                   stopVideoRecording().then((_) {
                     //////////////////////////////////////////////////////////////////
                     // Firebase code here using videoPath as directory
@@ -251,20 +247,16 @@ class _CameraAppState extends State<CameraApp>
                   duration = 3;
                 }
               });
-
             });
           }
         });
       });
-
-    }else{
+    } else {
       print("onVideoRecordButtonPressed Error");
     }
-
   }
 
   Future<String> startVideoRecording() async {
-
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Stryde_Videos';
     await Directory(dirPath).create(recursive: true);
@@ -304,7 +296,7 @@ class _CameraAppState extends State<CameraApp>
 
   Future<void> _startVideoPlayer() async {
     final VideoPlayerController vcontroller =
-    VideoPlayerController.file(File(videoPath));
+        VideoPlayerController.file(File(videoPath));
     videoPlayerListener = () {
       if (videoController != null && videoController.value.size != null) {
         // Refreshing the state to update video player with the correct ratio.
@@ -327,11 +319,11 @@ class _CameraAppState extends State<CameraApp>
 }
 
 class Record extends StatelessWidget {
-  Record(){
+  Record() {
     start();
   }
 
-  Future<void> start() async{
+  Future<void> start() async {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       cameras = await availableCameras();

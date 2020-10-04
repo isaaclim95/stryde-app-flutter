@@ -155,9 +155,36 @@ class HomeState extends State<Home> {
   }
 
   /////////////////////////////////////////
-  var exerciseText = Text("How long have you exercised for today?",
-      style: GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
-      textAlign: TextAlign.center);
+  Future<void> alertBox(title, response) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title,
+              style: GoogleFonts.openSans(
+                  fontSize: 20, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center),
+          content: Text(response,
+              style: GoogleFonts.openSans(
+                  fontSize: 16, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center),
+          actions: <Widget>[
+            RaisedButton(
+              color: kPrimaryColor,
+              child: Text('Close',
+                  style: GoogleFonts.openSans(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget dailyExercise() {
     var _exerciseController = TextEditingController();
@@ -173,7 +200,10 @@ class HomeState extends State<Home> {
           width: 350,
           child: Column(
             children: [
-              exerciseText,
+              Text("How long have you exercised for today?",
+                  style: GoogleFonts.openSans(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +215,8 @@ class HomeState extends State<Home> {
                       focusNode: exerciseFocus,
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.all(-5),
-                        fillColor: Colors.white,
+                        filled: true,
+                        fillColor: Color(0xFFf0f0f0),
                         border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(30.0),
                           borderSide: new BorderSide(),
@@ -202,7 +233,13 @@ class HomeState extends State<Home> {
                   ),
                   SizedBox(width: 10),
                   RaisedButton(
-                    child: Text('Minutes'),
+                    //child: Text('Minutes'),
+                    color: kPrimaryColor,
+                    child: Text('Minutes',
+                        style: GoogleFonts.openSans(
+                            color: Colors.white,
+                            fontSize: 14, fontWeight: FontWeight.w600),
+                        textAlign: TextAlign.center),
                     //                        color: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -210,35 +247,39 @@ class HomeState extends State<Home> {
                       setState(() {
                         exerciseFocus.unfocus();
                         String response;
+                        String title;
                         if (int.parse(globals.age) < 18) {
                           if (int.parse(_exerciseController.text) < 60) {
+                            title = "Not enough exercise";
                             response =
-                                "Not enough exercise\nAccording to Australia's Department of Health you should be doing 60 minutes or more exercise daily";
+                                "According to Australia's Department of Health you should be doing 60 minutes or more exercise daily";
                           } else {
+                            title = "Great job";
                             response =
-                                "Great job\nYou've met your daily recommended exercise";
+                                "You've met your daily recommended exercise";
                           }
                         } else if (int.parse(globals.age) < 65) {
                           if (int.parse(_exerciseController.text) < 10) {
+                            title = "Not enough exercise";
                             response =
-                                "Not enough exercise\nAccording to Australia's Department of Health you should be doing 10 minutes or more exercise daily";
+                                "According to Australia's Department of Health you should be doing 10 minutes or more exercise daily";
                           } else {
+                            title = "Great job";
                             response =
-                                "Great job\nYou've met your daily recommended exercise";
+                                "You've met your daily recommended exercise";
                           }
                         } else {
                           if (int.parse(_exerciseController.text) < 30) {
+                            title = "Not enough exercise";
                             response =
-                                "Not enough exercise\nAccording to Australia's Department of Health you should be doing 30 minutes or more exercise daily";
+                                "According to Australia's Department of Health you should be doing 30 minutes or more exercise daily";
                           } else {
+                            title = "Great job";
                             response =
-                                "Great job\nYou've met your daily recommended exercise";
+                                "You've met your daily recommended exercise";
                           }
                         }
-                        exerciseText = Text(response,
-                            style: GoogleFonts.openSans(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.center);
+                        alertBox(title, response);
                       });
                     },
                   ),
@@ -250,9 +291,6 @@ class HomeState extends State<Home> {
   }
 
   /////////////////////////////////////////
-  var weightText = Text("What is your current weight?",
-      style: GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
-      textAlign: TextAlign.center);
   AuthenticationService as = AuthenticationService();
 
   Widget dailyWeight() {
@@ -269,7 +307,10 @@ class HomeState extends State<Home> {
             width: 350,
             child: Column(
               children: [
-                weightText,
+                Text("What is your current weight?",
+                    style: GoogleFonts.openSans(
+                        fontSize: 16, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -280,7 +321,8 @@ class HomeState extends State<Home> {
                       child: TextField(
                         decoration: new InputDecoration(
                           contentPadding: EdgeInsets.all(-5),
-                          fillColor: Colors.white,
+                          filled: true,
+                          fillColor: Color(0xFFf0f0f0),
                           border: new OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(30.0),
                             borderSide: new BorderSide(),
@@ -297,7 +339,13 @@ class HomeState extends State<Home> {
                     ),
                     SizedBox(width: 10),
                     RaisedButton(
-                      child: Text('Kilograms'),
+                      //child: Text('Kilograms'),
+                      color: kPrimaryColor,
+                      child: Text('Kilograms',
+                          style: GoogleFonts.openSans(
+                              color: Colors.white,
+                              fontSize: 14, fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center),
 //                        color: Colors.blueAccent,
                       shape: RoundedRectangleBorder(
                           borderRadius:

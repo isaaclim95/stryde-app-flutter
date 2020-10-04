@@ -205,9 +205,10 @@ class ProfileState extends State<Profile> {
                             Container(
                               width: 90,
                               decoration: new BoxDecoration(
+                                  border: Border.all(width: 1.5, color: Color.fromRGBO(132, 132, 132, 1)),
                                   borderRadius: new BorderRadius.all(
                                       new Radius.circular(100.0)),
-                                  color: Colors.grey[300]),
+                                  color: Color.fromRGBO(240, 240, 240, 1)),
                               padding: new EdgeInsets.fromLTRB(
                                   10.0, 10.0, 10.0, 10.0),
                               child: Column(
@@ -227,9 +228,10 @@ class ProfileState extends State<Profile> {
                             Container(
                               width: 90,
                               decoration: new BoxDecoration(
+                                  border: Border.all(width: 1.5, color: Color.fromRGBO(132, 132, 132, 1)),
                                   borderRadius: new BorderRadius.all(
-                                      new Radius.circular(50.0)),
-                                  color: Colors.grey[300]),
+                                      new Radius.circular(100.0)),
+                                  color: Color.fromRGBO(240, 240, 240, 1)),
                               padding: new EdgeInsets.fromLTRB(
                                   10.0, 10.0, 10.0, 10.0),
                               child: Column(
@@ -249,9 +251,10 @@ class ProfileState extends State<Profile> {
                             Container(
                               width: 90,
                               decoration: new BoxDecoration(
+                                  border: Border.all(width: 1.5, color: Color.fromRGBO(132, 132, 132, 1)),
                                   borderRadius: new BorderRadius.all(
-                                      new Radius.circular(50.0)),
-                                  color: Colors.grey[300]),
+                                      new Radius.circular(100.0)),
+                                  color: Color.fromRGBO(240, 240, 240, 1)),
                               padding: new EdgeInsets.fromLTRB(
                                   10.0, 10.0, 10.0, 10.0),
                               child: Column(
