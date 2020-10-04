@@ -1,4 +1,4 @@
-String name;
+String name = "";
 String age;
 String weight;
 String height;

@@ -11,8 +11,6 @@ import 'package:strydeapp/welcome.dart';
 import 'services/globals.dart' as globals;
 import 'exercises.dart';
 
-String name = "";
-
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -24,6 +22,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   var _nameController = TextEditingController();
   FocusNode exerciseFocus = FocusNode();
+  bool done = false;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -328,32 +327,22 @@ class HomeState extends State<Home> {
     )));
   }
 
-  /////////////////////////////////////////
-
   @override
   void initState() {
-    setTextControllers().then((value) {
-      print('setTextControllers done.');
-    });
+    setTextControllers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    // Refresh state until name is found
-    // dirty fix
-    if (globals.name == null) {
-      print("null");
-      setState(() {});
-    } else {
-      print("not null");
-      setState(() {
-        name = globals.name;
-      });
-    }
     return Scaffold(
-      backgroundColor: Colors.white,
+        appBar: AppBar(
+            elevation: 0,
+            backgroundColor: kPrimaryColor
+        ),
+
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -363,9 +352,8 @@ class HomeState extends State<Home> {
           child: Container(
             child: Column(
               children: [
-              SizedBox(height:40),
               Text(
-                "Hi " + name,
+                "Hi " + globals.name,
                 style:
                     GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
