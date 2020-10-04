@@ -13,6 +13,7 @@ import 'exercises.dart';
 
 String name = "";
 
+
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
   final String title;
@@ -22,6 +23,7 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   var _nameController = TextEditingController();
+  FocusNode exerciseFocus = FocusNode();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -75,8 +77,8 @@ class HomeState extends State<Home> {
             },
             child: Container(
               padding: EdgeInsets.all(10.0),
-              width: 170,
-              height: 170,
+              width: 160,
+              height: 160,
               child: Column(children: [
                 Align(
                     alignment: Alignment(0, -0.9),
@@ -92,7 +94,7 @@ class HomeState extends State<Home> {
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Icon(
                       icon,
-                      size: 75,
+                      size: 50,
                     )),
               ]),
             ),
@@ -136,8 +138,8 @@ class HomeState extends State<Home> {
             },
             child: Container(
               padding: EdgeInsets.all(10.0),
-              width: 170,
-              height: 170,
+              width: 160,
+              height: 160,
               child: Column(children: [
                 Align(
                     alignment: Alignment(0, -0.9),
@@ -191,6 +193,7 @@ class HomeState extends State<Home> {
                   Container(
                     width: 100,
                     child: TextField(
+                      focusNode: exerciseFocus,
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.all(-5),
                         fillColor: Colors.white,
@@ -216,6 +219,7 @@ class HomeState extends State<Home> {
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
                     onPressed: () {
                       setState(() {
+                        exerciseFocus.unfocus();
                         String response;
                         if (int.parse(globals.age) < 18) {
                           if (int.parse(_exerciseController.text) < 60) {
@@ -383,7 +387,8 @@ class HomeState extends State<Home> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 0,
                     crossAxisSpacing: 0,
-                    childAspectRatio: 3/2.5,
+                    childAspectRatio: 3/2.3,
+
                   ),
                   children: [
                     button1("Profile", Profile(), Icons.account_circle),
