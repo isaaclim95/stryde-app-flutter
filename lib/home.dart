@@ -309,6 +309,7 @@ class HomeState extends State<Home> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16.0))),
               onPressed: () {
+
                 setState(() {
                   as.putWeight(double.parse(_weightController.text));
                   globals.weight = _weightController.text;
@@ -316,6 +317,15 @@ class HomeState extends State<Home> {
                     'weight': double.parse(_weightController.text),
                     'date': DateTime.now()
                   });
+                  // Showing toast after completion
+                  Fluttertoast.showToast(
+                      msg: "Weight saved.",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 });
               },
             ),
@@ -349,63 +359,56 @@ class HomeState extends State<Home> {
         name = globals.name;
       });
     }
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        } else {}
-      },
-      child: Container(
-        child: Column(
+        body: Container(
+          child: Column(
+            children: [
+            SizedBox(height:40),
+            Text(
+              "Hi " + name,
+              style:
+                  GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+            dailyExercise(),
+            dailyWeight(),
+            Column(
+              children: <Widget>[
+                GridView(
+                  padding: const EdgeInsets.all(4),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 0,
+                    crossAxisSpacing: 0,
+                    childAspectRatio: 3/2.5,
+                  ),
+                  children: [
+                    button1("Profile", Profile(), Icons.account_circle),
+                    button1("Exercises", Exercises(), Icons.fitness_center),
+                    button1("Record walking", Record(), Icons.photo_camera),
+                    button2("Sign out", Icons.exit_to_app),
+                  ],
+                )
+              ],
 
-          children: [
-          SizedBox(height:40),
-          Text(
-            "Hi " + name,
-            style:
-                GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
-            textAlign: TextAlign.center,
-          ),
-          dailyExercise(),
-          dailyWeight(),
-          Container(
-            child:
-              GridView(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 0,
-                  crossAxisSpacing: 0,
-                  childAspectRatio: 3/2.5,
-                ),
-                children: [
-                  button1("Profile", Profile(), Icons.account_circle),
-                  button1("Exercises", Exercises(), Icons.fitness_center),
-                  button1("Record walking", Record(), Icons.photo_camera),
-                  button2("Sign out", Icons.exit_to_app),
-                ],
-              )
-              // GridView.count(
-              //   shrinkWrap: true,
-              //   crossAxisCount: 2,
-              //   childAspectRatio: 1.0,
-              //   crossAxisSpacing: 0.0,
-              //   mainAxisSpacing: 0.0,
-              //   children: [
-              //     button1("Profile", Profile(), Icons.account_circle),
-              //     button1("Exercises", Exercises(), Icons.fitness_center),
-              //     button1("Record walking", Record(), Icons.photo_camera),
-              //     button2("Sign out", Icons.exit_to_app),
-              //   ],
-              // ),
-          )
-        ]),
-      ),
-    ));
+                // GridView.count(
+                //   shrinkWrap: true,
+                //   crossAxisCount: 2,
+                //   childAspectRatio: 1.0,
+                //   crossAxisSpacing: 0.0,
+                //   mainAxisSpacing: 0.0,
+                //   children: [
+                //     button1("Profile", Profile(), Icons.account_circle),
+                //     button1("Exercises", Exercises(), Icons.fitness_center),
+                //     button1("Record walking", Record(), Icons.photo_camera),
+                //     button2("Sign out", Icons.exit_to_app),
+                //   ],
+                // ),
+            )
+          ]),
+        ));
   }
 }

@@ -52,7 +52,12 @@ class ConnectorState extends State<Connector> {
       //   elevation: 0,
       //   backgroundColor: kPrimaryColor
       // ),
-      body: pages.elementAt(selectedIndex),
+      body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: pages.elementAt(selectedIndex)
+      ),
 //      bottomNavigationBar: BottomNavigationBar(
 //        type: BottomNavigationBarType.fixed,
 //        items: const <BottomNavigationBarItem>[
