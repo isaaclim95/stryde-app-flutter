@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'connector.dart';
+import 'home.dart';
 
 class Firstrun extends StatelessWidget {
   @override
@@ -80,7 +80,7 @@ class Firstrun extends StatelessWidget {
             onPressed: () {
               // Changing page
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Connector(0)));
+                  MaterialPageRoute(builder: (context) => Home()));
             },
             textColor: Colors.white,
             padding: const EdgeInsets.all(0.0),

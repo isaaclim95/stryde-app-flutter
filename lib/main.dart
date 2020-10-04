@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:strydeapp/services/behavior.dart';
 import 'package:strydeapp/services/firebase_service_model.dart';
+import 'home.dart';
 import 'welcome.dart';
-import 'connector.dart';
 
 Future<void> main() async {
   // Needed to initialize Firebase
@@ -47,7 +47,7 @@ Future<void> getAndSetGlobalData() async {
   authenticationService.getData();
 }
 
-/// Returns a Connector if user is logged in, otherwise returns welcome screen
+/// Returns a Home if user is logged in, otherwise returns Welcome
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class LandingPage extends StatelessWidget {
   }
   _decideMainPage() {
     if (userIsLoggedIn()) {
-      return Connector(0);
+      return Home();
     } else {
       return Welcome();
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:strydeapp/welcome.dart';
-import 'connector.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'home.dart';
 import 'services/firebase_service_model.dart';
 
 class Login extends StatefulWidget {
@@ -53,7 +53,7 @@ class LoginState extends State<Login> {
         authenticationService.getData();
         // Changing page
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Connector(0)));
+            MaterialPageRoute(builder: (context) => Home()));
       });
     } catch (err) {
       print('Caught error: $err');

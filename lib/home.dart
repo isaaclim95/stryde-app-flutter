@@ -365,55 +365,61 @@ class HomeState extends State<Home> {
     }
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Container(
-          child: Column(
-            children: [
-            SizedBox(height:40),
-            Text(
-              "Hi " + name,
-              style:
-                  GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
-              textAlign: TextAlign.center,
-            ),
-            dailyExercise(),
-            dailyWeight(),
-            Column(
-              children: <Widget>[
-                GridView(
-                  padding: const EdgeInsets.all(4),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 0,
-                    crossAxisSpacing: 0,
-                    childAspectRatio: 3/2.3,
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Container(
+            child: Column(
+              children: [
+              SizedBox(height:40),
+              Text(
+                "Hi " + name,
+                style:
+                    GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              dailyExercise(),
+              dailyWeight(),
+              Column(
+                children: <Widget>[
+                  GridView(
+                    padding: const EdgeInsets.all(4),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 0,
+                      crossAxisSpacing: 0,
+                      childAspectRatio: 3/2.3,
 
-                  ),
-                  children: [
-                    button1("Profile", Profile(), Icons.account_circle),
-                    button1("Exercises", Exercises(), Icons.fitness_center),
-                    button1("Record walking", Record(), Icons.photo_camera),
-                    button2("Sign out", Icons.exit_to_app),
-                  ],
-                )
-              ],
+                    ),
+                    children: [
+                      button1("Profile", Profile(), Icons.account_circle),
+                      button1("Exercises", Exercises(), Icons.fitness_center),
+                      button1("Record walking", Record(), Icons.photo_camera),
+                      button2("Sign out", Icons.exit_to_app),
+                    ],
+                  )
+                ],
 
-                // GridView.count(
-                //   shrinkWrap: true,
-                //   crossAxisCount: 2,
-                //   childAspectRatio: 1.0,
-                //   crossAxisSpacing: 0.0,
-                //   mainAxisSpacing: 0.0,
-                //   children: [
-                //     button1("Profile", Profile(), Icons.account_circle),
-                //     button1("Exercises", Exercises(), Icons.fitness_center),
-                //     button1("Record walking", Record(), Icons.photo_camera),
-                //     button2("Sign out", Icons.exit_to_app),
-                //   ],
-                // ),
-            )
-          ]),
+                  // GridView.count(
+                  //   shrinkWrap: true,
+                  //   crossAxisCount: 2,
+                  //   childAspectRatio: 1.0,
+                  //   crossAxisSpacing: 0.0,
+                  //   mainAxisSpacing: 0.0,
+                  //   children: [
+                  //     button1("Profile", Profile(), Icons.account_circle),
+                  //     button1("Exercises", Exercises(), Icons.fitness_center),
+                  //     button1("Record walking", Record(), Icons.photo_camera),
+                  //     button2("Sign out", Icons.exit_to_app),
+                  //   ],
+                  // ),
+              )
+            ]),
+          ),
         ));
   }
 }
