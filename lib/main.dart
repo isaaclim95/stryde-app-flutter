@@ -13,9 +13,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  var as = AuthenticationService();
-  as.getData();
-
   if(userIsLoggedIn())  {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     String userId = _firebaseAuth.currentUser.uid;
@@ -65,10 +62,6 @@ bool userIsLoggedIn() {
     print("User is NOT logged in");
     return false;
   }
-}
-
-Future<void> getAndSetGlobalData() async {
-
 }
 
 /// Returns a Home if user is logged in, otherwise returns Welcome

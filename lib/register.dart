@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dropdowns.dart';
-import 'main.dart';
 import 'home.dart';
 import 'services/firebase_service_model.dart';
+import 'services/globals.dart' as globals;
 
 var _emailController = TextEditingController();
 var _passwordController = TextEditingController();
@@ -19,7 +21,7 @@ class Register extends StatefulWidget {
 class RegisterState extends State<Register> {
   final AuthenticationService _authenticationService = AuthenticationService();
 
-  void signUp(
+  Future<bool> signUp(
       {@required String email,
       @required String password,
       @required String name,
@@ -41,7 +43,18 @@ class RegisterState extends State<Register> {
           weight: weight,
           injury_history: injury_history);
     });
-    getAndSetGlobalData();
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    String userId = _firebaseAuth.currentUser.uid;
+    var usersReference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    usersReference.once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      globals.name = values['name'].toString();
+      globals.age = values['age'].toString();
+      globals.weight = values['weight'].toString();
+      globals.height = values['height'].toString();
+      globals.injury_history = values['injury_history'].toString();
+    });
+    return true;
   }
 
   @override

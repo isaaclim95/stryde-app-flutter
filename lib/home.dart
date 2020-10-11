@@ -395,7 +395,7 @@ class HomeState extends State<Home> {
           },
           child: Container(
             child: Column(children: [
-              SizedBox(height: 65),
+              SizedBox(height: 30),
               Text(
                 "Hi " + globals.name,
                 style: GoogleFonts.openSans(
@@ -416,7 +416,7 @@ class HomeState extends State<Home> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 0,
                       crossAxisSpacing: 0,
-                      childAspectRatio: 1,
+                      childAspectRatio: 3/2.8,
                     ),
                     children: [
                       button1("Profile", Profile(), Icons.account_circle),
